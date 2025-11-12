@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import './styles/design-system.css';
-import GymWorkoutForm from './components/GymWorkoutForm';
+import ModernWorkoutForm from './components/ModernWorkoutForm';
 import SampleDataButton from './components/SampleDataButton';
 import ActivityHistoryCompact from './components/ActivityHistoryCompact';
 import ExerciseGroupSelector, { ExerciseGroup } from './components/ExerciseGroupSelector';
@@ -162,7 +162,7 @@ function App() {
                       </h2>
                     </div>
                     
-                    <GymWorkoutForm 
+                    <ModernWorkoutForm 
                       onWorkoutSaved={() => {
                         handleDataUpdate();
                         setCurrentView('home');

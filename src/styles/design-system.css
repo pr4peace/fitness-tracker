@@ -616,6 +616,328 @@
   flex: 1;
 }
 
+/* Modern Workout Form */
+.modern-workout-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.workout-progress {
+  padding: var(--space-4);
+}
+
+.progress-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--space-3);
+}
+
+.progress-stat {
+  text-align: center;
+}
+
+.stat-number {
+  display: block;
+  font-size: var(--text-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--primary-green);
+}
+
+.stat-label {
+  font-size: var(--text-xs);
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.progress-bar {
+  height: 4px;
+  background: var(--warm-beige);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--gradient-green);
+  border-radius: var(--radius-full);
+  transition: width var(--transition-normal);
+}
+
+/* Exercise cards */
+.exercises-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.exercise-card {
+  padding: var(--space-4);
+}
+
+.exercise-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.exercise-number {
+  background: var(--gradient-green);
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--text-sm);
+  flex-shrink: 0;
+}
+
+.exercise-name-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: var(--text-lg);
+  font-weight: var(--font-weight-semibold);
+  color: #374151;
+  padding: var(--space-2) 0;
+}
+
+.exercise-name-input:focus {
+  outline: none;
+  color: var(--primary-green);
+}
+
+.remove-exercise-btn {
+  background: none;
+  border: none;
+  color: #ef4444;
+  font-size: var(--text-xl);
+  cursor: pointer;
+  padding: var(--space-1);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+}
+
+.remove-exercise-btn:hover {
+  background: #fef2f2;
+}
+
+/* Sets grid */
+.sets-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.set-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+
+.set-row.completed {
+  background: var(--light-green);
+  opacity: 0.8;
+}
+
+.set-number {
+  width: 24px;
+  height: 24px;
+  background: var(--warm-beige);
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-medium);
+  color: #6b7280;
+  flex-shrink: 0;
+}
+
+.set-input-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.set-input {
+  width: 60px;
+  padding: var(--space-2);
+  border: 1px solid #d1d5db;
+  border-radius: var(--radius-md);
+  text-align: center;
+  font-weight: var(--font-weight-medium);
+  background: white;
+  transition: all var(--transition-fast);
+}
+
+.set-input:focus {
+  outline: none;
+  border-color: var(--primary-green);
+  box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.1);
+}
+
+.input-label {
+  font-size: var(--text-xs);
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.completion-btn {
+  background: white;
+  border: 2px solid #d1d5db;
+  border-radius: var(--radius-full);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-size: var(--text-lg);
+}
+
+.completion-btn:hover {
+  border-color: var(--primary-green);
+}
+
+.completion-btn.completed {
+  background: var(--primary-green);
+  border-color: var(--primary-green);
+  color: white;
+}
+
+.remove-set-btn {
+  background: none;
+  border: none;
+  color: #ef4444;
+  font-size: var(--text-lg);
+  cursor: pointer;
+  padding: var(--space-1);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.remove-set-btn:hover {
+  background: #fef2f2;
+}
+
+.add-set-btn {
+  align-self: flex-start;
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--text-sm);
+}
+
+/* Add exercise button */
+.add-exercise-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border: 2px dashed #d1d5db;
+  background: transparent;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  font-weight: var(--font-weight-medium);
+  color: #6b7280;
+}
+
+.add-exercise-btn:hover {
+  border-color: var(--primary-green);
+  color: var(--primary-green);
+  background: var(--glass-bg);
+}
+
+.add-icon {
+  font-size: var(--text-xl);
+}
+
+/* Workout notes */
+.workout-notes {
+  padding: var(--space-4);
+}
+
+.notes-label {
+  display: block;
+  font-weight: var(--font-weight-medium);
+  color: #374151;
+  margin-bottom: var(--space-2);
+}
+
+.notes-textarea {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  font-family: inherit;
+  font-size: var(--text-sm);
+  resize: vertical;
+  background: white;
+  transition: all var(--transition-fast);
+}
+
+.notes-textarea:focus {
+  outline: none;
+  border-color: var(--primary-green);
+  box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.1);
+}
+
+.notes-textarea::placeholder {
+  color: #9ca3af;
+}
+
+/* Save button */
+.save-workout-btn {
+  padding: var(--space-4) var(--space-6);
+  font-size: var(--text-lg);
+  font-weight: var(--font-weight-semibold);
+  margin-top: var(--space-2);
+}
+
+.save-workout-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .set-row {
+    gap: var(--space-2);
+  }
+  
+  .set-input {
+    width: 50px;
+    padding: var(--space-1);
+  }
+  
+  .exercise-header {
+    gap: var(--space-2);
+  }
+  
+  .progress-stats {
+    gap: var(--space-2);
+  }
+}
+
 /* Animation utilities */
 @keyframes fadeInUp {
   from {
