@@ -79,54 +79,15 @@ const WorkoutOverview: React.FC = () => {
   };
 
   return (
-    <div className="workout-overview glass-card">
-      <h3 className="overview-title">Workout Overview</h3>
-      
-      {/* Recent Activity Summary */}
-      <div className="recent-summary">
-        <div className="summary-stat">
-          <span className="stat-number">{recentActivities.length}</span>
-          <span className="stat-label">Recent Workouts</span>
-        </div>
-        
-        {recentActivities.length > 0 && (
-          <div className="last-workout-info">
-            <span className="last-workout-text">
-              Last: {getWorkoutGroupName(recentActivities[0].data as GymWorkout)} 
-              <span className="last-workout-date">
-                {formatRelativeDate(recentActivities[0].date)}
-              </span>
-            </span>
-          </div>
-        )}
-      </div>
-
-      {/* Category Breakdown */}
-      {Object.keys(lastWorkouts).length > 0 && (
-        <div className="category-breakdown">
-          <h4 className="breakdown-title">Last Workouts by Type</h4>
-          <div className="category-grid">
-            {Object.entries(lastWorkouts).map(([category, workout]) => (
-              <div key={category} className="category-card">
-                <div className="category-header">
-                  <span className="category-name">{getCategoryDisplayName(category)}</span>
-                  <span className="category-badge">{getWorkoutGroupName(workout)}</span>
-                </div>
-                <div className="category-meta">
-                  <span className="category-date">{formatRelativeDate(workout.date)}</span>
-                  <span className="category-exercises">{workout.exercises.length} exercises</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {recentActivities.length === 0 && (
-        <div className="no-workouts">
-          <div className="no-workouts-icon">🏋️‍♂️</div>
-          <p>No workouts logged yet. Start by selecting a workout type below!</p>
-        </div>
+    <div className="workout-overview-flag">
+      {recentActivities.length > 0 ? (
+        <span className="last-workout-flag">
+          Last Workout: {getCategoryDisplayName((recentActivities[0].data as GymWorkout).category)} {getWorkoutGroupName(recentActivities[0].data as GymWorkout)} - {(recentActivities[0].data as GymWorkout).duration}mins {formatRelativeDate(recentActivities[0].date)}
+        </span>
+      ) : (
+        <span className="no-workout-flag">
+          No workouts logged yet - Start by selecting a workout type below
+        </span>
       )}
     </div>
   );
