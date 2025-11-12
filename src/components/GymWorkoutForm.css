@@ -162,11 +162,21 @@
 .set-row {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   margin-bottom: 8px;
-  padding: 8px;
+  padding: 12px;
   background: white;
   border-radius: 6px;
+  flex-wrap: wrap;
+}
+
+/* Mobile optimization for set rows */
+@media (max-width: 768px) {
+  .set-row {
+    gap: 6px;
+    padding: 10px;
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
 }
 
 .set-number {
@@ -178,11 +188,22 @@
 
 .set-input {
   width: 70px;
-  padding: 6px;
+  padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
   text-align: center;
-  font-size: 14px;
+  font-size: 16px; /* Prevent iOS zoom */
+  -webkit-appearance: none; /* Remove iOS styling */
+}
+
+/* Mobile input optimization */
+@media (max-width: 768px) {
+  .set-input {
+    width: 65px;
+    padding: 10px 8px;
+    font-size: 16px;
+    min-height: 40px; /* Better touch targets */
+  }
 }
 
 .set-input:focus {

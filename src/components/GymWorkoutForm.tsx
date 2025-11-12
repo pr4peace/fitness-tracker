@@ -126,7 +126,7 @@ const GymWorkoutForm: React.FC<GymWorkoutFormProps> = ({ onWorkoutSaved }) => {
               <div key={ex.id} className="last-exercise">
                 <strong>{ex.name}</strong>: {ex.sets.length} sets
                 {ex.sets.map((set: Set, i: number) => (
-                  <span key={i}> | {set.reps}x{set.weight}lbs</span>
+                  <span key={i}> | {set.reps}×{set.weight}kg</span>
                 ))}
               </div>
             ))}
@@ -187,7 +187,7 @@ const GymWorkoutForm: React.FC<GymWorkoutFormProps> = ({ onWorkoutSaved }) => {
                     onChange={(e) => updateSet(exercise.id, setIndex, 'weight', parseInt(e.target.value) || 0)}
                     className="set-input"
                   />
-                  <span>lbs</span>
+                  <span>kg</span>
                   <button 
                     onClick={() => removeSet(exercise.id, setIndex)}
                     className="remove-set-button"
