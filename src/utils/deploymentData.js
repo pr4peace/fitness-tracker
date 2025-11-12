@@ -5,10 +5,10 @@ const DEPLOYMENT_DATA = {
     {
       "id": "today_upper_body",
       "type": "gym",
-      "date": "2025-11-12T13:28:35.756Z",
+      "date": "2025-11-11T13:28:35.756Z",
       "data": {
-        "id": "today_upper_body_workout",
-        "date": "2025-11-12T13:28:35.757Z",
+        "id": "yesterday_upper_body_workout", 
+        "date": "2025-11-11T13:28:35.757Z",
         "category": "upper-body",
         "exercises": [
           {
