@@ -2,22 +2,27 @@
 /* Based on Dribbble reference design */
 
 :root {
-  /* Colors - Inspired by the reference design */
-  --primary-green: #2d5f47;
-  --accent-green: #4a7c59;
-  --light-green: #a8c8a0;
-  --cream-bg: #f5f2ed;
-  --warm-beige: #e8e0d4;
+  /* Brighter, more vibrant colors */
+  --primary-green: #34d399;
+  --accent-green: #10b981;
+  --light-green: #6ee7b7;
+  --bright-blue: #3b82f6;
+  --purple: #8b5cf6;
+  --orange: #f59e0b;
+  --cream-bg: #fefcf3;
+  --warm-beige: #faf8f1;
   
-  /* Gradients */
-  --gradient-main: linear-gradient(135deg, #f5f2ed 0%, #e8e0d4 50%, #d4c9b8 100%);
-  --gradient-green: linear-gradient(135deg, #4a7c59 0%, #2d5f47 100%);
-  --gradient-card: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.6) 100%);
+  /* Vibrant gradients */
+  --gradient-main: linear-gradient(135deg, #fefcf3 0%, #faf8f1 50%, #f0fdf4 100%);
+  --gradient-green: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+  --gradient-blue: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+  --gradient-purple: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%);
+  --gradient-card: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.8) 100%);
   
-  /* Glass effects */
-  --glass-bg: rgba(255, 255, 255, 0.25);
-  --glass-border: rgba(255, 255, 255, 0.18);
-  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+  /* Enhanced glass effects */
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.4);
+  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.08);
   
   /* Typography */
   --font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
@@ -71,11 +76,12 @@
 /* Dark mode support */
 @media (prefers-color-scheme: dark) {
   :root {
-    --cream-bg: #1a1a1a;
-    --warm-beige: #2d2d2d;
-    --gradient-main: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #404040 100%);
-    --glass-bg: rgba(255, 255, 255, 0.1);
+    --cream-bg: #0f172a;
+    --warm-beige: #1e293b;
+    --gradient-main: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+    --glass-bg: rgba(255, 255, 255, 0.05);
     --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
   }
 }
 
@@ -204,6 +210,192 @@
   .container {
     padding: var(--space-3);
   }
+}
+
+/* Compact activity cards */
+.activity-card-compact {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--glass-border);
+  padding: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-3);
+  transition: all var(--transition-normal);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 60px;
+}
+
+.activity-card-compact:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.activity-main-info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.activity-category-badge {
+  background: var(--gradient-green);
+  color: white;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.activity-category-badge.cardio {
+  background: var(--gradient-blue);
+}
+
+.activity-category-badge.strength {
+  background: var(--gradient-green);
+}
+
+.activity-category-badge.flexibility {
+  background: var(--gradient-purple);
+}
+
+.activity-group-name {
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-medium);
+  color: #374151;
+  margin: 0;
+}
+
+.activity-date-time {
+  font-size: var(--text-sm);
+  color: #6b7280;
+  text-align: right;
+}
+
+.activity-stats-mini {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-1);
+}
+
+.activity-stat-mini {
+  font-size: var(--text-xs);
+  color: #9ca3af;
+}
+
+/* Exercise group presets */
+.exercise-groups-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--space-3);
+  margin: var(--space-4) 0;
+}
+
+.exercise-group-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--glass-border);
+  padding: var(--space-4);
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+}
+
+.exercise-group-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.exercise-group-card.selected {
+  background: var(--gradient-green);
+  color: white;
+  border-color: var(--primary-green);
+}
+
+.exercise-group-icon {
+  font-size: var(--text-2xl);
+  margin-bottom: var(--space-2);
+}
+
+.exercise-group-title {
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--space-1);
+}
+
+.exercise-group-subtitle {
+  font-size: var(--text-xs);
+  opacity: 0.7;
+}
+
+/* Exercise preview on hover */
+.exercise-preview {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--glass-border);
+  padding: var(--space-3);
+  margin-top: var(--space-2);
+  z-index: 10;
+  box-shadow: var(--shadow-lg);
+}
+
+.exercise-group-card {
+  position: relative;
+}
+
+.exercise-preview-title {
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-semibold);
+  color: #6b7280;
+  margin-bottom: var(--space-1);
+}
+
+.exercise-preview-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.exercise-preview-item {
+  font-size: var(--text-xs);
+  color: #374151;
+}
+
+.exercise-preview-more {
+  font-size: var(--text-xs);
+  color: #6b7280;
+  font-style: italic;
+}
+
+/* Exercise chips */
+.exercise-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.exercise-chip {
+  background: var(--gradient-green);
+  color: white;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-medium);
+}
+
+/* Compact activity history */
+.activity-history-compact {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
 }
 
 /* Animation utilities */

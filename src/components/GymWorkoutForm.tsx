@@ -6,10 +6,18 @@ import './GymWorkoutForm.css';
 
 interface GymWorkoutFormProps {
   onWorkoutSaved: () => void;
+  preselectedCategory?: string;
+  preselectedExercises?: string[];
 }
 
-const GymWorkoutForm: React.FC<GymWorkoutFormProps> = ({ onWorkoutSaved }) => {
-  const [category, setCategory] = useState<WorkoutCategory>('upper-body');
+const GymWorkoutForm: React.FC<GymWorkoutFormProps> = ({ 
+  onWorkoutSaved, 
+  preselectedCategory,
+  preselectedExercises 
+}) => {
+  const [category, setCategory] = useState<WorkoutCategory>(
+    (preselectedCategory as WorkoutCategory) || 'upper-body'
+  );
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [notes, setNotes] = useState('');
   const [lastWorkout, setLastWorkout] = useState<GymWorkout | null>(null);

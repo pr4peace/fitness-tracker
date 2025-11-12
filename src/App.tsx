@@ -3,16 +3,22 @@ import './App.css';
 import './styles/design-system.css';
 import GymWorkoutForm from './components/GymWorkoutForm';
 import SampleDataButton from './components/SampleDataButton';
-import ActivityHistory from './components/ActivityHistory';
+import ActivityHistoryCompact from './components/ActivityHistoryCompact';
+import ExerciseGroupSelector, { ExerciseGroup } from './components/ExerciseGroupSelector';
 import RunForm from './components/RunForm';
 import WorkoutStats from './components/WorkoutStats';
 
 function App() {
   const [currentView, setCurrentView] = useState<'home' | 'log-gym' | 'log-run'>('home');
   const [refreshTrigger, setRefreshTrigger] = useState(0);
+  const [selectedExerciseGroup, setSelectedExerciseGroup] = useState<ExerciseGroup | undefined>();
 
   const handleDataUpdate = () => {
     setRefreshTrigger(prev => prev + 1);
+  };
+
+  const handleExerciseGroupSelect = (group: ExerciseGroup) => {
+    setSelectedExerciseGroup(group);
   };
 
   return (
@@ -77,7 +83,7 @@ function App() {
               {/* Activity history */}
               <div className="activity-section glass-card">
                 <h3 className="text-subheading">Recent Activities</h3>
-                <ActivityHistory key={refreshTrigger} />
+                <ActivityHistoryCompact key={refreshTrigger} />
               </div>
             </div>
           )}
@@ -85,11 +91,27 @@ function App() {
           {currentView === 'log-gym' && (
             <div className="workout-form-container animate-fade-in animate-delay-2">
               <div className="form-card glass-card">
-                <h2 className="text-subheading">Log Gym Workout</h2>
-                <GymWorkoutForm onWorkoutSaved={() => {
-                  handleDataUpdate();
-                  setCurrentView('home');
-                }} />
+                <ExerciseGroupSelector 
+                  onGroupSelect={handleExerciseGroupSelect}
+                  selectedGroup={selectedExerciseGroup}
+                />
+                
+                {selectedExerciseGroup && (
+                  <>
+                    <h2 className="text-subheading" style={{ marginTop: 'var(--space-6)' }}>
+                      Log {selectedExerciseGroup.title} Workout
+                    </h2>
+                    <GymWorkoutForm 
+                      onWorkoutSaved={() => {
+                        handleDataUpdate();
+                        setCurrentView('home');
+                        setSelectedExerciseGroup(undefined);
+                      }}
+                      preselectedCategory={selectedExerciseGroup.category}
+                      preselectedExercises={selectedExerciseGroup.exercises}
+                    />
+                  </>
+                )}
               </div>
             </div>
           )}
