@@ -10,7 +10,7 @@
 ## Project Status
 - ✅ **Version 1.0 MVP Complete** - Professional fitness tracker with logging
 - ✅ **Version 1.5 Complete** - Modern UI/UX with glassmorphism design
-- 🚀 **READY FOR DEPLOYMENT** - Clean codebase, production-ready
+- 🚀 **DEPLOYED LIVE** - https://fitness-tracker-mocha-mu.vercel.app
 - 📱 **Future Goal** - Full trainer-trainee ecosystem with mobile apps
 
 ## Important Commands
