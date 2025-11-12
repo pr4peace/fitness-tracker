@@ -106,17 +106,23 @@
   background: var(--gradient-green);
   color: white;
   border: none;
-  border-radius: var(--radius-full);
-  padding: var(--space-3) var(--space-6);
-  font-weight: var(--font-weight-medium);
-  font-size: var(--text-base);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-6);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--text-lg);
+  letter-spacing: 0.025em;
   cursor: pointer;
   transition: all var(--transition-normal);
   box-shadow: var(--shadow-md);
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
 }
 
 .btn-primary:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
   box-shadow: var(--shadow-lg);
 }
 
@@ -222,9 +228,15 @@
   margin-bottom: var(--space-3);
   transition: all var(--transition-normal);
   display: flex;
+  flex-direction: column;
+  min-height: 60px;
+}
+
+.activity-card-header {
+  display: flex;
   justify-content: space-between;
   align-items: center;
-  min-height: 60px;
+  width: 100%;
 }
 
 .activity-card-compact:hover {
@@ -236,6 +248,7 @@
   display: flex;
   align-items: center;
   gap: var(--space-3);
+  flex: 1;
 }
 
 .activity-category-badge {
@@ -627,8 +640,8 @@
 
 .last-workout-actions {
   display: flex;
-  gap: var(--space-3);
-  margin-top: var(--space-4);
+  gap: var(--space-4);
+  margin-top: var(--space-6);
 }
 
 .last-workout-actions button {
@@ -636,20 +649,31 @@
 }
 
 .btn-secondary {
-  background: var(--warm-beige);
-  color: var(--primary-green);
-  border: 1px solid var(--primary-green);
-  border-radius: var(--radius-md);
-  padding: var(--space-3) var(--space-4);
-  font-weight: var(--font-weight-medium);
+  background: var(--gradient-blue);
+  color: white;
+  border: none;
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-6);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--text-lg);
+  letter-spacing: 0.025em;
   cursor: pointer;
   transition: all var(--transition-normal);
+  box-shadow: var(--shadow-md);
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
 }
 
 .btn-secondary:hover {
-  background: var(--primary-green);
-  color: white;
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.btn-secondary:active {
+  transform: translateY(0);
 }
 
 /* Empty last workout state */

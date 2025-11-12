@@ -110,29 +110,34 @@ const ActivityHistoryCompact: React.FC = () => {
         return (
           <div key={activity.id} className="activity-card-compact">
             <div 
-              className="activity-main-info"
-              onClick={() => setExpandedCard(isExpanded ? null : activity.id)}
+              className="activity-card-header"
+              onClick={() => {
+                console.log('Activity card clicked:', activity.id, 'Currently expanded:', expandedCard);
+                setExpandedCard(isExpanded ? null : activity.id);
+              }}
               style={{ cursor: 'pointer' }}
             >
-              <span className={`activity-category-badge ${categoryType}`}>
-                {categoryType === 'strength' ? 'GYM' : 
-                 categoryType === 'cardio' ? 'RUN' : 'FLEX'}
-              </span>
-              <div>
-                <p className="activity-group-name">{groupName}</p>
-                <div className="activity-stats-mini">
-                  <span className="activity-stat-mini">{getActivityStats(activity)}</span>
+              <div className="activity-main-info">
+                <span className={`activity-category-badge ${categoryType}`}>
+                  {categoryType === 'strength' ? 'GYM' : 
+                   categoryType === 'cardio' ? 'RUN' : 'FLEX'}
+                </span>
+                <div>
+                  <p className="activity-group-name">{groupName}</p>
+                  <div className="activity-stats-mini">
+                    <span className="activity-stat-mini">{getActivityStats(activity)}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-            
-            <div className="activity-actions">
-              <div className="activity-date-time">
-                {formatDateTime(activity.date)}
+              
+              <div className="activity-actions">
+                <div className="activity-date-time">
+                  {formatDateTime(activity.date)}
+                </div>
+                <span className={`activity-expand-icon ${isExpanded ? 'expanded' : ''}`}>
+                  {isExpanded ? '▼' : '▶'}
+                </span>
               </div>
-              <span className={`activity-expand-icon ${isExpanded ? 'expanded' : ''}`}>
-                {isExpanded ? '▼' : '▶'}
-              </span>
             </div>
 
             {isExpanded && (
