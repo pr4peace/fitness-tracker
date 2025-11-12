@@ -4,6 +4,7 @@ import { storage } from '../utils/storage';
 
 const ActivityHistoryCompact: React.FC = () => {
   const [activities, setActivities] = useState<Activity[]>([]);
+  const [expandedCard, setExpandedCard] = useState<string | null>(null);
 
   useEffect(() => {
     loadActivities();
@@ -104,9 +105,15 @@ const ActivityHistoryCompact: React.FC = () => {
           ? 'Running' 
           : getExerciseGroup(activity.data as GymWorkout);
         
+        const isExpanded = expandedCard === activity.id;
+        
         return (
           <div key={activity.id} className="activity-card-compact">
-            <div className="activity-main-info">
+            <div 
+              className="activity-main-info"
+              onClick={() => setExpandedCard(isExpanded ? null : activity.id)}
+              style={{ cursor: 'pointer' }}
+            >
               <span className={`activity-category-badge ${categoryType}`}>
                 {categoryType === 'strength' ? 'GYM' : 
                  categoryType === 'cardio' ? 'RUN' : 'FLEX'}
@@ -119,9 +126,95 @@ const ActivityHistoryCompact: React.FC = () => {
               </div>
             </div>
             
-            <div className="activity-date-time">
-              {formatDateTime(activity.date)}
+            <div className="activity-actions">
+              <div className="activity-date-time">
+                {formatDateTime(activity.date)}
+              </div>
+              <span className={`activity-expand-icon ${isExpanded ? 'expanded' : ''}`}>
+                {isExpanded ? '▼' : '▶'}
+              </span>
             </div>
+
+            {isExpanded && (
+              <div className="activity-details-expanded">
+                {activity.type === 'run' ? (
+                  <div className="run-details">
+                    {(() => {
+                      const run = activity.data as RunActivity;
+                      return (
+                        <>
+                          <div className="detail-row">
+                            <span className="detail-label">Distance:</span>
+                            <span className="detail-value">{run.distance} miles</span>
+                          </div>
+                          <div className="detail-row">
+                            <span className="detail-label">Duration:</span>
+                            <span className="detail-value">{run.duration} minutes</span>
+                          </div>
+                          {run.pace && (
+                            <div className="detail-row">
+                              <span className="detail-label">Pace:</span>
+                              <span className="detail-value">{run.pace} min/mile</span>
+                            </div>
+                          )}
+                          {run.route && (
+                            <div className="detail-row">
+                              <span className="detail-label">Route:</span>
+                              <span className="detail-value">{run.route}</span>
+                            </div>
+                          )}
+                          {run.notes && (
+                            <div className="detail-notes">
+                              <strong>Notes:</strong> {run.notes}
+                            </div>
+                          )}
+                        </>
+                      );
+                    })()}
+                  </div>
+                ) : (
+                  <div className="gym-details">
+                    {(() => {
+                      const workout = activity.data as GymWorkout;
+                      return (
+                        <>
+                          <div className="detail-row">
+                            <span className="detail-label">Category:</span>
+                            <span className="detail-value">{workout.category.replace('-', ' ')}</span>
+                          </div>
+                          {workout.duration && (
+                            <div className="detail-row">
+                              <span className="detail-label">Duration:</span>
+                              <span className="detail-value">{workout.duration} minutes</span>
+                            </div>
+                          )}
+                          <div className="exercises-breakdown">
+                            <h4>Exercises:</h4>
+                            {workout.exercises.map((exercise, index) => (
+                              <div key={exercise.id} className="exercise-detail">
+                                <div className="exercise-name">{exercise.name}</div>
+                                <div className="sets-summary">
+                                  {exercise.sets.map((set, setIndex) => (
+                                    <span key={setIndex} className="set-detail">
+                                      {set.reps}×{set.weight === 0 ? 'BW' : `${set.weight}kg`}
+                                    </span>
+                                  ))}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                          {workout.notes && (
+                            <div className="detail-notes">
+                              <strong>Workout Notes:</strong> {workout.notes}
+                            </div>
+                          )}
+                        </>
+                      );
+                    })()}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         );
       })}

@@ -268,10 +268,105 @@
   margin: 0;
 }
 
+.activity-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
 .activity-date-time {
   font-size: var(--text-sm);
   color: #6b7280;
   text-align: right;
+}
+
+.activity-expand-icon {
+  font-size: var(--text-sm);
+  color: #9ca3af;
+  transition: transform var(--transition-fast);
+  cursor: pointer;
+}
+
+.activity-expand-icon.expanded {
+  transform: rotate(0deg);
+}
+
+/* Expandable activity details */
+.activity-details-expanded {
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  animation: fadeInUp 0.3s ease-out;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-2);
+}
+
+.detail-label {
+  font-size: var(--text-sm);
+  color: #6b7280;
+  font-weight: var(--font-weight-medium);
+}
+
+.detail-value {
+  font-size: var(--text-sm);
+  color: #374151;
+  font-weight: var(--font-weight-medium);
+}
+
+.detail-notes {
+  margin-top: var(--space-3);
+  padding: var(--space-3);
+  background: var(--warm-beige);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  color: #6b7280;
+}
+
+/* Exercise breakdown styles */
+.exercises-breakdown {
+  margin-top: var(--space-3);
+}
+
+.exercises-breakdown h4 {
+  margin: 0 0 var(--space-2) 0;
+  font-size: var(--text-sm);
+  color: #374151;
+  font-weight: var(--font-weight-semibold);
+}
+
+.exercise-detail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-2);
+  padding: var(--space-2);
+  background: var(--warm-beige);
+  border-radius: var(--radius-sm);
+}
+
+.exercise-name {
+  font-size: var(--text-sm);
+  color: #374151;
+  font-weight: var(--font-weight-medium);
+}
+
+.sets-summary {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.set-detail {
+  background: white;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+  color: #6b7280;
+  border: 1px solid #e5e7eb;
 }
 
 .activity-stats-mini {

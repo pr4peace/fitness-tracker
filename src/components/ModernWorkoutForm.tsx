@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { WorkoutCategory, Exercise, Set, GymWorkout } from '../types/index';
+import { WorkoutCategory, Exercise, Set, GymWorkout, Activity } from '../types/index';
 import { storage, generateId } from '../utils/storage';
 
 interface ModernWorkoutFormProps {
@@ -152,7 +152,15 @@ const ModernWorkoutForm: React.FC<ModernWorkoutFormProps> = ({
       duration: 45 // Default duration, could be calculated
     };
 
-    storage.saveGymWorkout(workout);
+    // Create activity with proper structure
+    const activity: Activity = {
+      id: generateId(),
+      type: 'gym',
+      date: workout.date,
+      data: workout
+    };
+
+    storage.addActivity(activity);
     
     // Small delay to show loading state
     setTimeout(() => {
