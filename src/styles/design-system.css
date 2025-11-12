@@ -726,8 +726,8 @@
 }
 
 .flag-category {
-  color: var(--primary-green);
-  font-weight: var(--font-weight-semibold);
+  color: var(--text-secondary);
+  font-weight: var(--font-weight-medium);
 }
 
 .flag-type {
@@ -740,13 +740,12 @@
 }
 
 .flag-duration {
-  color: var(--bright-blue);
-  font-weight: var(--font-weight-semibold);
+  color: var(--text-secondary);
+  font-weight: var(--font-weight-medium);
 }
 
 .flag-date {
   color: var(--text-secondary);
-  font-style: italic;
 }
 
 .no-workout-flag {
