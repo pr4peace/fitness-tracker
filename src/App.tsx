@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
+import GymWorkoutForm from './components/GymWorkoutForm';
 
 function App() {
   const [currentView, setCurrentView] = useState<'home' | 'log-gym' | 'log-run'>('home');
@@ -42,8 +43,7 @@ function App() {
         {currentView === 'log-gym' && (
           <div>
             <h2>Log Gym Workout</h2>
-            {/* Gym workout form will go here */}
-            <p>Gym workout form coming soon...</p>
+            <GymWorkoutForm onWorkoutSaved={() => setCurrentView('home')} />
           </div>
         )}
         

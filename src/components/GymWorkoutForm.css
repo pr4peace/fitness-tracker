@@ -1,0 +1,226 @@
+.workout-form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form-section {
+  margin-bottom: 25px;
+}
+
+.form-section label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+}
+
+.form-section select,
+.form-section textarea {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.form-section select:focus,
+.form-section textarea:focus {
+  outline: none;
+  border-color: #007AFF;
+}
+
+.last-workout {
+  background: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 25px;
+}
+
+.last-workout h3 {
+  margin: 0 0 10px 0;
+  color: #666;
+  text-transform: capitalize;
+}
+
+.last-exercises {
+  font-size: 14px;
+}
+
+.last-exercise {
+  margin-bottom: 5px;
+  color: #555;
+}
+
+.exercises-section {
+  margin-bottom: 25px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.section-header h3 {
+  margin: 0;
+  color: #333;
+}
+
+.add-button {
+  background: #34C759;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.add-button:hover {
+  background: #30B854;
+}
+
+.exercise-card {
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 15px;
+  background: white;
+}
+
+.exercise-header {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.exercise-name-input {
+  flex: 1;
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.exercise-name-input:focus {
+  outline: none;
+  border-color: #007AFF;
+}
+
+.remove-button {
+  background: #FF3B30;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.remove-button:hover {
+  background: #E8342F;
+}
+
+.sets-section {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 15px;
+}
+
+.sets-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.sets-header span {
+  font-weight: 600;
+  color: #333;
+}
+
+.add-set-button {
+  background: #007AFF;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.add-set-button:hover {
+  background: #0056CC;
+}
+
+.set-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  padding: 8px;
+  background: white;
+  border-radius: 6px;
+}
+
+.set-number {
+  min-width: 50px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+}
+
+.set-input {
+  width: 70px;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.set-input:focus {
+  outline: none;
+  border-color: #007AFF;
+}
+
+.remove-set-button {
+  background: #FF9500;
+  color: white;
+  border: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.remove-set-button:hover {
+  background: #E8840C;
+}
+
+.save-button {
+  width: 100%;
+  background: #007AFF;
+  color: white;
+  border: none;
+  padding: 16px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.save-button:hover {
+  background: #0056CC;
+}
