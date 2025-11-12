@@ -8,6 +8,7 @@ import ExerciseGroupSelector, { ExerciseGroup } from './components/ExerciseGroup
 import LastWorkoutCard from './components/LastWorkoutCard';
 import RunForm from './components/RunForm';
 import WorkoutStats from './components/WorkoutStats';
+import WorkoutOverview from './components/WorkoutOverview';
 import { storage } from './utils/storage';
 import { GymWorkout, WorkoutCategory } from './types/index';
 
@@ -114,6 +115,9 @@ function App() {
           
           {currentView === 'log-gym' && (
             <div className="workout-form-container animate-fade-in animate-delay-2">
+              {/* Workout Overview - shows activity across all types */}
+              <WorkoutOverview key={refreshTrigger} />
+              
               <div className="form-card glass-card">
                 {/* Step 1: Exercise Group Selection */}
                 {workoutMode === 'select' && !selectedExerciseGroup && (
