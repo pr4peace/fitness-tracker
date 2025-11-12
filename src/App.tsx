@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import './styles/design-system.css';
+import { initializeDeploymentData } from './utils/deploymentData';
 import ModernWorkoutForm from './components/ModernWorkoutForm';
 import SampleDataButton from './components/SampleDataButton';
 import ActivityHistoryCompact from './components/ActivityHistoryCompact';
@@ -17,6 +18,11 @@ function App() {
   const [selectedExerciseGroup, setSelectedExerciseGroup] = useState<ExerciseGroup | undefined>();
   const [lastWorkout, setLastWorkout] = useState<GymWorkout | null>(null);
   const [workoutMode, setWorkoutMode] = useState<'select' | 'repeat' | 'new'>('select');
+
+  // Initialize clean deployment data
+  useEffect(() => {
+    initializeDeploymentData();
+  }, []);
 
   const handleDataUpdate = () => {
     setRefreshTrigger(prev => prev + 1);

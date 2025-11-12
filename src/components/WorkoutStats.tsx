@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { storage } from '../utils/storage';
-import { Activity, GymWorkout, RunActivity } from '../types/index';
+import { GymWorkout, RunActivity } from '../types/index';
 import './WorkoutStats.css';
 
 const WorkoutStats: React.FC = () => {

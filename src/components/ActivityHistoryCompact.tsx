@@ -111,10 +111,7 @@ const ActivityHistoryCompact: React.FC = () => {
           <div key={activity.id} className="activity-card-compact">
             <div 
               className="activity-card-header"
-              onClick={() => {
-                console.log('Activity card clicked:', activity.id, 'Currently expanded:', expandedCard);
-                setExpandedCard(isExpanded ? null : activity.id);
-              }}
+              onClick={() => setExpandedCard(isExpanded ? null : activity.id)}
               style={{ cursor: 'pointer' }}
             >
               <div className="activity-main-info">

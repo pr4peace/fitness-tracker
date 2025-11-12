@@ -15,7 +15,7 @@ const ModernWorkoutForm: React.FC<ModernWorkoutFormProps> = ({
   preselectedExercises,
   repeatWorkout 
 }) => {
-  const [category, setCategory] = useState<WorkoutCategory>(
+  const [category] = useState<WorkoutCategory>(
     (preselectedCategory as WorkoutCategory) || 'upper-body'
   );
   const [exercises, setExercises] = useState<Exercise[]>([]);
