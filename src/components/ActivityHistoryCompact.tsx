@@ -52,7 +52,7 @@ const ActivityHistoryCompact: React.FC = () => {
   const getCategoryType = (activity: Activity): 'strength' | 'cardio' | 'flexibility' => {
     if (activity.type === 'run') return 'cardio';
     
-    const workout = activity as GymWorkout;
+    const workout = activity.data as GymWorkout;
     if (workout.category === 'cardio') return 'cardio';
     if (workout.category?.includes('yoga') || workout.category?.includes('stretch')) return 'flexibility';
     return 'strength';
@@ -76,11 +76,11 @@ const ActivityHistoryCompact: React.FC = () => {
 
   const getActivityStats = (activity: Activity): string => {
     if (activity.type === 'run') {
-      const run = activity as RunActivity;
+      const run = activity.data as RunActivity;
       return `${run.distance}mi • ${run.duration}min`;
     }
     
-    const workout = activity as GymWorkout;
+    const workout = activity.data as GymWorkout;
     const totalSets = workout.exercises.reduce((total, ex) => total + ex.sets.length, 0);
     return `${workout.exercises.length} exercises • ${totalSets} sets`;
   };
@@ -102,7 +102,7 @@ const ActivityHistoryCompact: React.FC = () => {
         const categoryType = getCategoryType(activity);
         const groupName = activity.type === 'run' 
           ? 'Running' 
-          : getExerciseGroup(activity as GymWorkout);
+          : getExerciseGroup(activity.data as GymWorkout);
         
         return (
           <div key={activity.id} className="activity-card-compact">
