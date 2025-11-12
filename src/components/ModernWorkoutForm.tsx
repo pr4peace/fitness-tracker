@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { WorkoutCategory, Exercise, Set, GymWorkout, Activity } from '../types/index';
 import { storage, generateId } from '../utils/storage';
+import ExerciseSelector from './ExerciseSelector';
+import { ExerciseOption } from '../data/exerciseDatabase';
 
 interface ModernWorkoutFormProps {
   onWorkoutSaved: () => void;
@@ -108,10 +110,28 @@ const ModernWorkoutForm: React.FC<ModernWorkoutFormProps> = ({
     setExercises([...exercises, newExercise]);
   };
 
-  const updateExerciseName = (exerciseId: string, name: string) => {
-    setExercises(exercises.map(ex => 
-      ex.id === exerciseId ? { ...ex, name } : ex
-    ));
+  const updateExerciseName = (exerciseId: string, name: string, exerciseData?: ExerciseOption) => {
+    setExercises(exercises.map(ex => {
+      if (ex.id === exerciseId) {
+        const updatedExercise = { ...ex, name };
+        
+        // If we have exercise data from database, apply defaults
+        if (exerciseData && exerciseData.defaultSets && exerciseData.defaultReps) {
+          const defaultSet = {
+            reps: exerciseData.defaultReps,
+            weight: exerciseData.defaultWeight || 0,
+            notes: '',
+            coachNotes: ''
+          };
+          
+          // Create the right number of sets with default values
+          updatedExercise.sets = Array(exerciseData.defaultSets).fill(null).map(() => ({ ...defaultSet }));
+        }
+        
+        return updatedExercise;
+      }
+      return ex;
+    }));
   };
 
   const removeExercise = (exerciseId: string) => {
@@ -208,12 +228,11 @@ const ModernWorkoutForm: React.FC<ModernWorkoutFormProps> = ({
           <div key={exercise.id} className="exercise-card glass-card">
             <div className="exercise-header">
               <div className="exercise-number">{exerciseIndex + 1}</div>
-              <input
-                type="text"
+              <ExerciseSelector
                 value={exercise.name}
-                onChange={(e) => updateExerciseName(exercise.id, e.target.value)}
-                className="exercise-name-input"
-                placeholder="Exercise name"
+                onChange={(name, exerciseData) => updateExerciseName(exercise.id, name, exerciseData)}
+                category={category}
+                placeholder="Select or type exercise name"
               />
               <button
                 type="button"
