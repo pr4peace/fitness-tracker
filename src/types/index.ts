@@ -11,6 +11,10 @@ export interface Set {
   weight: number; // in lbs or kg
   restTime?: number; // in seconds
   notes?: string;
+  coachNotes?: string;
+  actualReps?: number; // What was actually completed
+  actualWeight?: number; // What weight was actually used
+  completed?: boolean; // Whether this set was completed
 }
 
 export interface GymWorkout {

@@ -3,6 +3,8 @@ import './App.css';
 import GymWorkoutForm from './components/GymWorkoutForm';
 import SampleDataButton from './components/SampleDataButton';
 import ActivityHistory from './components/ActivityHistory';
+import RunForm from './components/RunForm';
+import WorkoutStats from './components/WorkoutStats';
 
 function App() {
   const [currentView, setCurrentView] = useState<'home' | 'log-gym' | 'log-run'>('home');
@@ -43,6 +45,7 @@ function App() {
           <div>
             <h2>Your Activities</h2>
             <SampleDataButton onDataLoaded={handleDataUpdate} />
+            <WorkoutStats key={refreshTrigger} />
             <ActivityHistory key={refreshTrigger} />
           </div>
         )}
@@ -60,8 +63,10 @@ function App() {
         {currentView === 'log-run' && (
           <div>
             <h2>Log Running Activity</h2>
-            {/* Running form will go here */}
-            <p>Running form coming soon...</p>
+            <RunForm onRunSaved={() => {
+              handleDataUpdate();
+              setCurrentView('home');
+            }} />
           </div>
         )}
       </main>

@@ -76,14 +76,14 @@ const ActivityHistory: React.FC = () => {
     <div className="run-details">
       <div className="run-stats">
         <span className="stat">
-          <strong>{run.distance}</strong> miles
+          <strong>{run.distance}</strong> km
         </span>
         <span className="stat">
           <strong>{run.duration}</strong> min
         </span>
         {run.pace && (
           <span className="stat">
-            <strong>{run.pace.toFixed(1)}</strong> min/mile
+            <strong>{run.pace.toFixed(1)}</strong> min/km
           </span>
         )}
       </div>
