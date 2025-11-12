@@ -2,9 +2,15 @@ import React, { useState } from 'react';
 import './App.css';
 import GymWorkoutForm from './components/GymWorkoutForm';
 import SampleDataButton from './components/SampleDataButton';
+import ActivityHistory from './components/ActivityHistory';
 
 function App() {
   const [currentView, setCurrentView] = useState<'home' | 'log-gym' | 'log-run'>('home');
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+
+  const handleDataUpdate = () => {
+    setRefreshTrigger(prev => prev + 1);
+  };
 
   return (
     <div className="App">
@@ -36,16 +42,18 @@ function App() {
         {currentView === 'home' && (
           <div>
             <h2>Your Activities</h2>
-            <SampleDataButton onDataLoaded={() => {}} />
-            <p>Welcome to your fitness tracker! Start by logging a workout.</p>
-            {/* Activity list will go here */}
+            <SampleDataButton onDataLoaded={handleDataUpdate} />
+            <ActivityHistory key={refreshTrigger} />
           </div>
         )}
         
         {currentView === 'log-gym' && (
           <div>
             <h2>Log Gym Workout</h2>
-            <GymWorkoutForm onWorkoutSaved={() => setCurrentView('home')} />
+            <GymWorkoutForm onWorkoutSaved={() => {
+              handleDataUpdate();
+              setCurrentView('home');
+            }} />
           </div>
         )}
         
