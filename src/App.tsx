@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import GymWorkoutForm from './components/GymWorkoutForm';
+import SampleDataButton from './components/SampleDataButton';
 
 function App() {
   const [currentView, setCurrentView] = useState<'home' | 'log-gym' | 'log-run'>('home');
@@ -35,6 +36,7 @@ function App() {
         {currentView === 'home' && (
           <div>
             <h2>Your Activities</h2>
+            <SampleDataButton onDataLoaded={() => {}} />
             <p>Welcome to your fitness tracker! Start by logging a workout.</p>
             {/* Activity list will go here */}
           </div>
