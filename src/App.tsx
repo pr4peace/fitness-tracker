@@ -1,24 +1,60 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
 
 function App() {
+  const [currentView, setCurrentView] = useState<'home' | 'log-gym' | 'log-run'>('home');
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <header className="app-header">
+        <h1>💪 Fitness Tracker</h1>
+        <nav>
+          <button 
+            onClick={() => setCurrentView('home')}
+            className={currentView === 'home' ? 'active' : ''}
+          >
+            Home
+          </button>
+          <button 
+            onClick={() => setCurrentView('log-gym')}
+            className={currentView === 'log-gym' ? 'active' : ''}
+          >
+            Log Gym
+          </button>
+          <button 
+            onClick={() => setCurrentView('log-run')}
+            className={currentView === 'log-run' ? 'active' : ''}
+          >
+            Log Run
+          </button>
+        </nav>
       </header>
+
+      <main className="app-main">
+        {currentView === 'home' && (
+          <div>
+            <h2>Your Activities</h2>
+            <p>Welcome to your fitness tracker! Start by logging a workout.</p>
+            {/* Activity list will go here */}
+          </div>
+        )}
+        
+        {currentView === 'log-gym' && (
+          <div>
+            <h2>Log Gym Workout</h2>
+            {/* Gym workout form will go here */}
+            <p>Gym workout form coming soon...</p>
+          </div>
+        )}
+        
+        {currentView === 'log-run' && (
+          <div>
+            <h2>Log Running Activity</h2>
+            {/* Running form will go here */}
+            <p>Running form coming soon...</p>
+          </div>
+        )}
+      </main>
     </div>
   );
 }
