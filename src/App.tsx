@@ -1,17 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import './styles/design-system.css';
 import GymWorkoutForm from './components/GymWorkoutForm';
 import SampleDataButton from './components/SampleDataButton';
 import ActivityHistoryCompact from './components/ActivityHistoryCompact';
 import ExerciseGroupSelector, { ExerciseGroup } from './components/ExerciseGroupSelector';
+import LastWorkoutCard from './components/LastWorkoutCard';
 import RunForm from './components/RunForm';
 import WorkoutStats from './components/WorkoutStats';
+import { storage } from './utils/storage';
+import { GymWorkout, WorkoutCategory } from './types/index';
 
 function App() {
   const [currentView, setCurrentView] = useState<'home' | 'log-gym' | 'log-run'>('home');
   const [refreshTrigger, setRefreshTrigger] = useState(0);
   const [selectedExerciseGroup, setSelectedExerciseGroup] = useState<ExerciseGroup | undefined>();
+  const [lastWorkout, setLastWorkout] = useState<GymWorkout | null>(null);
+  const [workoutMode, setWorkoutMode] = useState<'select' | 'repeat' | 'new'>('select');
 
   const handleDataUpdate = () => {
     setRefreshTrigger(prev => prev + 1);
@@ -19,6 +24,24 @@ function App() {
 
   const handleExerciseGroupSelect = (group: ExerciseGroup) => {
     setSelectedExerciseGroup(group);
+    setWorkoutMode('select');
+    // Load last workout for this category
+    const last = storage.getLastWorkout(group.category as WorkoutCategory);
+    setLastWorkout(last);
+  };
+
+  const handleRepeatWorkout = () => {
+    setWorkoutMode('repeat');
+  };
+
+  const handleCreateNew = () => {
+    setWorkoutMode('new');
+  };
+
+  const resetWorkoutFlow = () => {
+    setSelectedExerciseGroup(undefined);
+    setLastWorkout(null);
+    setWorkoutMode('select');
   };
 
   return (
@@ -91,24 +114,67 @@ function App() {
           {currentView === 'log-gym' && (
             <div className="workout-form-container animate-fade-in animate-delay-2">
               <div className="form-card glass-card">
-                <ExerciseGroupSelector 
-                  onGroupSelect={handleExerciseGroupSelect}
-                  selectedGroup={selectedExerciseGroup}
-                />
+                {/* Step 1: Exercise Group Selection */}
+                {workoutMode === 'select' && !selectedExerciseGroup && (
+                  <ExerciseGroupSelector 
+                    onGroupSelect={handleExerciseGroupSelect}
+                    selectedGroup={selectedExerciseGroup}
+                  />
+                )}
                 
-                {selectedExerciseGroup && (
+                {/* Step 2: Show Last Workout & Options */}
+                {workoutMode === 'select' && selectedExerciseGroup && (
                   <>
-                    <h2 className="text-subheading" style={{ marginTop: 'var(--space-6)' }}>
-                      Log {selectedExerciseGroup.title} Workout
-                    </h2>
+                    <div className="workout-flow-header">
+                      <button 
+                        className="back-button"
+                        onClick={resetWorkoutFlow}
+                        title="Choose different workout type"
+                      >
+                        ← Back
+                      </button>
+                      <h2 className="text-subheading">
+                        {selectedExerciseGroup.icon} {selectedExerciseGroup.title} - {selectedExerciseGroup.subtitle}
+                      </h2>
+                    </div>
+                    
+                    <LastWorkoutCard 
+                      workout={lastWorkout}
+                      onRepeatWorkout={handleRepeatWorkout}
+                      onCreateNew={handleCreateNew}
+                    />
+                  </>
+                )}
+                
+                {/* Step 3: Workout Form */}
+                {(workoutMode === 'repeat' || workoutMode === 'new') && selectedExerciseGroup && (
+                  <>
+                    <div className="workout-flow-header">
+                      <button 
+                        className="back-button"
+                        onClick={() => setWorkoutMode('select')}
+                        title="Back to workout options"
+                      >
+                        ← Back
+                      </button>
+                      <h2 className="text-subheading">
+                        {workoutMode === 'repeat' ? '🔄 Repeat' : '✨ New'} {selectedExerciseGroup.title} Workout
+                      </h2>
+                    </div>
+                    
                     <GymWorkoutForm 
                       onWorkoutSaved={() => {
                         handleDataUpdate();
                         setCurrentView('home');
-                        setSelectedExerciseGroup(undefined);
+                        resetWorkoutFlow();
                       }}
                       preselectedCategory={selectedExerciseGroup.category}
-                      preselectedExercises={selectedExerciseGroup.exercises}
+                      preselectedExercises={
+                        workoutMode === 'repeat' && lastWorkout 
+                          ? lastWorkout.exercises.map(ex => ex.name)
+                          : selectedExerciseGroup.exercises
+                      }
+                      repeatWorkout={workoutMode === 'repeat' ? lastWorkout : undefined}
                     />
                   </>
                 )}

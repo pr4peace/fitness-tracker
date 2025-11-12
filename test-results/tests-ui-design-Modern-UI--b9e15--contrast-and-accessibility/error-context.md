@@ -1,70 +1,52 @@
 # Page snapshot
 
 ```yaml
-- generic [active] [ref=e1]:
-  - generic [ref=e3]:
-    - generic [ref=e5]:
-      - banner [ref=e6]:
-        - generic [ref=e7]:
-          - generic [ref=e8]:
-            - heading "Hey, Fitness Pro! 👋" [level=1] [ref=e9]
-            - paragraph [ref=e10]: Welcome back. Keep crushing your goals!
-          - generic [ref=e11]:
-            - generic [ref=e12]: 🔥 7
-            - generic [ref=e13]: day streak
-      - navigation [ref=e14]:
-        - generic [ref=e15]:
-          - button "Dashboard" [ref=e16] [cursor=pointer]
-          - button "Log Gym" [ref=e17] [cursor=pointer]
-          - button "Log Run" [ref=e18] [cursor=pointer]
-      - main [ref=e19]:
-        - generic [ref=e20]:
-          - generic [ref=e22]:
-            - heading "📊 Your Progress" [level=3] [ref=e23]
-            - generic [ref=e24]:
-              - generic [ref=e25]:
-                - generic [ref=e26]: "0"
-                - generic [ref=e27]: Day Streak 🔥
-              - generic [ref=e28]:
-                - generic [ref=e29]: "0"
-                - generic [ref=e30]: This Week
-              - generic [ref=e31]:
-                - generic [ref=e32]: "0"
-                - generic [ref=e33]: Total Workouts
-              - generic [ref=e34]:
-                - generic [ref=e35]: 0km
-                - generic [ref=e36]: Week Distance
-              - generic [ref=e37]:
-                - generic [ref=e38]: 0h
-                - generic [ref=e39]: Week Time
-              - generic [ref=e40]:
-                - generic [ref=e41]: "0"
-                - generic [ref=e42]: Avg/Week
-          - generic [ref=e43]:
-            - heading "Demo Data" [level=3] [ref=e44]
-            - button "Load Sample Data (Your Today's Workout)" [ref=e45] [cursor=pointer]
-          - generic [ref=e46]:
-            - heading "Recent Activities" [level=3] [ref=e47]
-            - generic [ref=e48]:
-              - generic [ref=e50]: No workouts yet
-              - generic [ref=e51]: Start logging!
-    - button "+" [ref=e52] [cursor=pointer]:
-      - generic [ref=e53]: +
-  - iframe [ref=e54]:
-    - generic [ref=f1e2]:
-      - generic [ref=f1e3]: "Compiled with problems:"
-      - button "Dismiss" [ref=f1e4] [cursor=pointer]: ×
-      - generic [ref=f1e5]:
-        - generic [ref=f1e6]:
-          - generic [ref=f1e7]: ERROR in src/components/ActivityHistoryCompact.tsx:55:21
-          - generic [ref=f1e8]: "TS2352: Conversion of type 'Activity' to type 'GymWorkout' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first. Type 'Activity' is missing the following properties from type 'GymWorkout': category, exercises 53 | if (activity.type === 'run') return 'cardio'; 54 | > 55 | const workout = activity as GymWorkout; | ^^^^^^^^^^^^^^^^^^^^^^ 56 | if (workout.category === 'cardio') return 'cardio'; 57 | if (workout.category?.includes('yoga') || workout.category?.includes('stretch')) return 'flexibility'; 58 | return 'strength';"
-        - generic [ref=f1e9]:
-          - generic [ref=f1e10]: ERROR in src/components/ActivityHistoryCompact.tsx:79:19
-          - generic [ref=f1e11]: "TS2352: Conversion of type 'Activity' to type 'RunActivity' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first. Type 'Activity' is missing the following properties from type 'RunActivity': distance, duration 77 | const getActivityStats = (activity: Activity): string => { 78 | if (activity.type === 'run') { > 79 | const run = activity as RunActivity; | ^^^^^^^^^^^^^^^^^^^^^^^ 80 | return `${run.distance}mi • ${run.duration}min`; 81 | } 82 |"
-        - generic [ref=f1e12]:
-          - generic [ref=f1e13]: ERROR in src/components/ActivityHistoryCompact.tsx:83:21
-          - generic [ref=f1e14]: "TS2352: Conversion of type 'Activity' to type 'GymWorkout' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first. 81 | } 82 | > 83 | const workout = activity as GymWorkout; | ^^^^^^^^^^^^^^^^^^^^^^ 84 | const totalSets = workout.exercises.reduce((total, ex) => total + ex.sets.length, 0); 85 | return `${workout.exercises.length} exercises • ${totalSets} sets`; 86 | };"
-        - generic [ref=f1e15]:
-          - generic [ref=f1e16]: ERROR in src/components/ActivityHistoryCompact.tsx:105:30
-          - generic [ref=f1e17]: "TS2352: Conversion of type 'Activity' to type 'GymWorkout' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first. 103 | const groupName = activity.type === 'run' 104 | ? 'Running' > 105 | : getExerciseGroup(activity as GymWorkout); | ^^^^^^^^^^^^^^^^^^^^^^ 106 | 107 | return ( 108 | <div key={activity.id} className=\"activity-card-compact\">"
+- generic [ref=e3]:
+  - generic [ref=e5]:
+    - banner [ref=e6]:
+      - generic [ref=e7]:
+        - generic [ref=e8]:
+          - heading "Hey, Fitness Pro! 👋" [level=1] [ref=e9]
+          - paragraph [ref=e10]: Welcome back. Keep crushing your goals!
+        - generic [ref=e11]:
+          - generic [ref=e12]: 🔥 7
+          - generic [ref=e13]: day streak
+    - navigation [ref=e14]:
+      - generic [ref=e15]:
+        - button "Dashboard" [ref=e16] [cursor=pointer]
+        - button "Log Gym" [ref=e17] [cursor=pointer]
+        - button "Log Run" [ref=e18] [cursor=pointer]
+    - main [ref=e19]:
+      - generic [ref=e20]:
+        - generic [ref=e22]:
+          - heading "📊 Your Progress" [level=3] [ref=e23]
+          - generic [ref=e24]:
+            - generic [ref=e25]:
+              - generic [ref=e26]: "0"
+              - generic [ref=e27]: Day Streak 🔥
+            - generic [ref=e28]:
+              - generic [ref=e29]: "0"
+              - generic [ref=e30]: This Week
+            - generic [ref=e31]:
+              - generic [ref=e32]: "0"
+              - generic [ref=e33]: Total Workouts
+            - generic [ref=e34]:
+              - generic [ref=e35]: 0km
+              - generic [ref=e36]: Week Distance
+            - generic [ref=e37]:
+              - generic [ref=e38]: 0h
+              - generic [ref=e39]: Week Time
+            - generic [ref=e40]:
+              - generic [ref=e41]: "0"
+              - generic [ref=e42]: Avg/Week
+        - generic [ref=e43]:
+          - heading "Demo Data" [level=3] [ref=e44]
+          - button "Load Sample Data (Your Today's Workout)" [ref=e45] [cursor=pointer]
+        - generic [ref=e46]:
+          - heading "Recent Activities" [level=3] [ref=e47]
+          - generic [ref=e48]:
+            - generic [ref=e50]: No workouts yet
+            - generic [ref=e51]: Start logging!
+  - button "+" [ref=e52] [cursor=pointer]:
+    - generic [ref=e53]: +
 ```

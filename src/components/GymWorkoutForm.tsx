@@ -8,12 +8,14 @@ interface GymWorkoutFormProps {
   onWorkoutSaved: () => void;
   preselectedCategory?: string;
   preselectedExercises?: string[];
+  repeatWorkout?: GymWorkout;
 }
 
 const GymWorkoutForm: React.FC<GymWorkoutFormProps> = ({ 
   onWorkoutSaved, 
   preselectedCategory,
-  preselectedExercises 
+  preselectedExercises,
+  repeatWorkout 
 }) => {
   const [category, setCategory] = useState<WorkoutCategory>(
     (preselectedCategory as WorkoutCategory) || 'upper-body'
@@ -22,6 +24,23 @@ const GymWorkoutForm: React.FC<GymWorkoutFormProps> = ({
   const [notes, setNotes] = useState('');
   const [lastWorkout, setLastWorkout] = useState<GymWorkout | null>(null);
   const [showExercisePicker, setShowExercisePicker] = useState<string | null>(null);
+
+  // Initialize with repeat workout data if provided
+  useEffect(() => {
+    if (repeatWorkout) {
+      setExercises(repeatWorkout.exercises.map(ex => ({
+        ...ex,
+        id: generateId(), // Generate new IDs for the repeated workout
+        sets: ex.sets.map(set => ({
+          ...set,
+          completed: false, // Reset completion status
+          actualReps: undefined,
+          actualWeight: undefined
+        }))
+      })));
+      setNotes(repeatWorkout.notes || '');
+    }
+  }, [repeatWorkout]);
 
   useEffect(() => {
     const last = storage.getLastWorkout(category);
