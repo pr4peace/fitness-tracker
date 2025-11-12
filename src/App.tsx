@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
+import './styles/design-system.css';
 import GymWorkoutForm from './components/GymWorkoutForm';
 import SampleDataButton from './components/SampleDataButton';
 import ActivityHistory from './components/ActivityHistory';
@@ -15,61 +16,102 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <header className="app-header">
-        <h1>💪 Fitness Tracker</h1>
-        <nav>
-          <button 
-            onClick={() => setCurrentView('home')}
-            className={currentView === 'home' ? 'active' : ''}
-          >
-            Home
-          </button>
-          <button 
-            onClick={() => setCurrentView('log-gym')}
-            className={currentView === 'log-gym' ? 'active' : ''}
-          >
-            Log Gym
-          </button>
-          <button 
-            onClick={() => setCurrentView('log-run')}
-            className={currentView === 'log-run' ? 'active' : ''}
-          >
-            Log Run
-          </button>
-        </nav>
-      </header>
+    <div className="modern-app">
+      {/* Modern gradient background */}
+      <div className="app-background"></div>
+      
+      <div className="container">
+        {/* Welcome header with glassmorphism */}
+        <header className="welcome-header glass-card animate-fade-in">
+          <div className="welcome-content">
+            <div className="user-greeting">
+              <h1 className="text-heading">Hey, Fitness Pro! 👋</h1>
+              <p className="text-body">Welcome back. Keep crushing your goals!</p>
+            </div>
+            <div className="streak-badge">
+              <span className="streak-number">🔥 7</span>
+              <span className="streak-label">day streak</span>
+            </div>
+          </div>
+        </header>
 
-      <main className="app-main">
-        {currentView === 'home' && (
-          <div>
-            <h2>Your Activities</h2>
-            <SampleDataButton onDataLoaded={handleDataUpdate} />
-            <WorkoutStats key={refreshTrigger} />
-            <ActivityHistory key={refreshTrigger} />
+        {/* Modern iOS-style navigation */}
+        <nav className="modern-nav glass-card animate-fade-in animate-delay-1">
+          <div className="ios-toggle">
+            <button 
+              onClick={() => setCurrentView('home')}
+              className={currentView === 'home' ? 'active' : ''}
+            >
+              Dashboard
+            </button>
+            <button 
+              onClick={() => setCurrentView('log-gym')}
+              className={currentView === 'log-gym' ? 'active' : ''}
+            >
+              Log Gym
+            </button>
+            <button 
+              onClick={() => setCurrentView('log-run')}
+              className={currentView === 'log-run' ? 'active' : ''}
+            >
+              Log Run
+            </button>
           </div>
-        )}
-        
-        {currentView === 'log-gym' && (
-          <div>
-            <h2>Log Gym Workout</h2>
-            <GymWorkoutForm onWorkoutSaved={() => {
-              handleDataUpdate();
-              setCurrentView('home');
-            }} />
-          </div>
-        )}
-        
-        {currentView === 'log-run' && (
-          <div>
-            <h2>Log Running Activity</h2>
-            <RunForm onRunSaved={() => {
-              handleDataUpdate();
-              setCurrentView('home');
-            }} />
-          </div>
-        )}
-      </main>
+        </nav>
+
+        {/* Main content */}
+        <main className="modern-main">
+          {currentView === 'home' && (
+            <div className="dashboard animate-fade-in animate-delay-2">
+              {/* Quick stats section */}
+              <div className="quick-stats glass-card">
+                <WorkoutStats key={refreshTrigger} />
+              </div>
+
+              {/* Sample data button for demo */}
+              <div className="demo-section glass-card">
+                <h3 className="text-subheading">Demo Data</h3>
+                <SampleDataButton onDataLoaded={handleDataUpdate} />
+              </div>
+
+              {/* Activity history */}
+              <div className="activity-section glass-card">
+                <h3 className="text-subheading">Recent Activities</h3>
+                <ActivityHistory key={refreshTrigger} />
+              </div>
+            </div>
+          )}
+          
+          {currentView === 'log-gym' && (
+            <div className="workout-form-container animate-fade-in animate-delay-2">
+              <div className="form-card glass-card">
+                <h2 className="text-subheading">Log Gym Workout</h2>
+                <GymWorkoutForm onWorkoutSaved={() => {
+                  handleDataUpdate();
+                  setCurrentView('home');
+                }} />
+              </div>
+            </div>
+          )}
+          
+          {currentView === 'log-run' && (
+            <div className="workout-form-container animate-fade-in animate-delay-2">
+              <div className="form-card glass-card">
+                <h2 className="text-subheading">Log Running Activity</h2>
+                <RunForm onRunSaved={() => {
+                  handleDataUpdate();
+                  setCurrentView('home');
+                }} />
+              </div>
+            </div>
+          )}
+        </main>
+      </div>
+
+      {/* Floating Action Button */}
+      <button className="fab glass-card">
+        <span className="fab-icon">+</span>
+      </button>
     </div>
   );
 }

@@ -1,6 +1,14 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "name": "Fitness Tracker Pro",
+  "short_name": "FitnessTracker",
+  "description": "Modern fitness tracking app for trainers and trainees",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#2d5f47",
+  "background_color": "#f5f2ed",
+  "orientation": "portrait-primary",
+  "categories": ["health", "fitness", "lifestyle"],
+  "lang": "en",
   "icons": [
     {
       "src": "favicon.ico",
@@ -9,17 +17,42 @@
     },
     {
       "src": "logo192.png",
+      "sizes": "192x192",
       "type": "image/png",
-      "sizes": "192x192"
+      "purpose": "maskable any"
     },
     {
-      "src": "logo512.png",
+      "src": "logo512.png", 
+      "sizes": "512x512",
       "type": "image/png",
-      "sizes": "512x512"
+      "purpose": "maskable any"
     }
   ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "shortcuts": [
+    {
+      "name": "Log Workout",
+      "short_name": "Log Gym",
+      "description": "Quickly log a gym workout",
+      "url": "/?view=log-gym",
+      "icons": [
+        {
+          "src": "logo192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Log Run",
+      "short_name": "Log Run", 
+      "description": "Quickly log a running activity",
+      "url": "/?view=log-run",
+      "icons": [
+        {
+          "src": "logo192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "prefer_related_applications": false
 }
