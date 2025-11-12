@@ -82,11 +82,15 @@ const WorkoutOverview: React.FC = () => {
     <div className="workout-overview-flag">
       {recentActivities.length > 0 ? (
         <span className="last-workout-flag">
-          Last Workout: {getCategoryDisplayName((recentActivities[0].data as GymWorkout).category)} {getWorkoutGroupName(recentActivities[0].data as GymWorkout)} - {(recentActivities[0].data as GymWorkout).duration}mins {formatRelativeDate(recentActivities[0].date)}
+          <span className="flag-label">Last Workout:</span> 
+          <span className="flag-category">{getCategoryDisplayName((recentActivities[0].data as GymWorkout).category)}</span>
+          <span className="flag-type">{getWorkoutGroupName(recentActivities[0].data as GymWorkout)}</span> 
+          <span className="flag-duration">- {(recentActivities[0].data as GymWorkout).duration}mins</span>
+          <span className="flag-date">{formatRelativeDate(recentActivities[0].date)}</span>
         </span>
       ) : (
         <span className="no-workout-flag">
-          No workouts logged yet - Start by selecting a workout type below
+          🏋️‍♂️ No workouts logged yet - Start by selecting a workout type below
         </span>
       )}
     </div>
