@@ -12,88 +12,162 @@ const DEPLOYMENT_DATA = {
         "category": "upper-body",
         "exercises": [
           {
-            "id": "bench_press_1",
-            "name": "Bench Press",
+            "id": "chest_press_1",
+            "name": "Chest Press",
             "sets": [
               {
-                "reps": 8,
-                "weight": 60,
+                "reps": 12,
+                "weight": 5,
                 "notes": "",
                 "coachNotes": "",
                 "completed": true
               },
               {
-                "reps": 8,
-                "weight": 65,
+                "reps": 12,
+                "weight": 7.5,
                 "notes": "",
                 "coachNotes": "",
                 "completed": true
               },
               {
-                "reps": 6,
-                "weight": 70,
-                "notes": "Good form",
+                "reps": 12,
+                "weight": 10,
+                "notes": "",
                 "coachNotes": "",
                 "completed": true
               }
             ]
           },
           {
-            "id": "incline_dumbbell_1",
-            "name": "Incline Dumbbell Press",
+            "id": "chest_dumbbell_fly_1",
+            "name": "Chest Dumbbell Fly",
             "sets": [
               {
-                "reps": 10,
-                "weight": 25,
+                "reps": 12,
+                "weight": 2.5,
                 "notes": "",
                 "coachNotes": "",
                 "completed": true
               },
               {
-                "reps": 10,
-                "weight": 25,
+                "reps": 12,
+                "weight": 5,
                 "notes": "",
                 "coachNotes": "",
                 "completed": true
               },
               {
-                "reps": 8,
-                "weight": 30,
-                "notes": "Challenging last set",
+                "reps": 12,
+                "weight": 7.5,
+                "notes": "",
                 "coachNotes": "",
                 "completed": true
               }
             ]
           },
           {
-            "id": "pull_ups_1",
-            "name": "Pull-ups",
+            "id": "triceps_rope_extension_1",
+            "name": "Triceps Rope Extension",
             "sets": [
               {
-                "reps": 6,
+                "reps": 12,
+                "weight": 12,
+                "notes": "",
+                "coachNotes": "",
+                "completed": true
+              },
+              {
+                "reps": 12,
+                "weight": 19,
+                "notes": "",
+                "coachNotes": "",
+                "completed": true
+              },
+              {
+                "reps": 12,
+                "weight": 26,
+                "notes": "",
+                "coachNotes": "",
+                "completed": true
+              }
+            ]
+          },
+          {
+            "id": "dips_1",
+            "name": "Dips",
+            "sets": [
+              {
+                "reps": 12,
                 "weight": 0,
+                "notes": "",
+                "coachNotes": "",
+                "completed": true
+              },
+              {
+                "reps": 8,
+                "weight": 0,
+                "notes": "",
+                "coachNotes": "",
+                "completed": true
+              },
+              {
+                "reps": 10,
+                "weight": 0,
+                "notes": "",
+                "coachNotes": "",
+                "completed": true
+              }
+            ]
+          },
+          {
+            "id": "front_lateral_raise_1",
+            "name": "Front Lateral Raise",
+            "sets": [
+              {
+                "reps": 5,
+                "weight": 5,
                 "notes": "",
                 "coachNotes": "",
                 "completed": true
               },
               {
                 "reps": 5,
-                "weight": 0,
+                "weight": 5,
                 "notes": "",
                 "coachNotes": "",
                 "completed": true
               },
               {
-                "reps": 4,
-                "weight": 0,
-                "notes": "Getting stronger",
+                "reps": 5,
+                "weight": 5,
+                "notes": "",
+                "coachNotes": "",
+                "completed": true
+              }
+            ]
+          },
+          {
+            "id": "reverse_posterior_fly_1",
+            "name": "Reverse Posterior Fly",
+            "sets": [
+              {
+                "reps": 5,
+                "weight": 5,
+                "notes": "",
+                "coachNotes": "",
+                "completed": true
+              },
+              {
+                "reps": 5,
+                "weight": 5,
+                "notes": "",
                 "coachNotes": "",
                 "completed": true
               }
             ]
           }
         ],
-        "notes": "Great upper body session today. Feeling strong!",
+        "notes": "Mixed session - good progression on chest press and triceps. Struggled with rear delts, couldn't hit coach's target reps.",
         "duration": 45
       }
     }
@@ -102,13 +176,9 @@ const DEPLOYMENT_DATA = {
 
 // Initialize clean data for deployment
 export const initializeDeploymentData = () => {
-  const existingData = localStorage.getItem('fitness-tracker-data');
-  
-  // Only set data if none exists (fresh deployment)
-  if (!existingData) {
-    localStorage.setItem('fitness-tracker-data', JSON.stringify(DEPLOYMENT_DATA.activities));
-    console.log('✅ Clean deployment data initialized');
-  }
+  // Always set clean deployment data (force reset)
+  localStorage.setItem('fitness-tracker-data', JSON.stringify(DEPLOYMENT_DATA.activities));
+  console.log('✅ Clean deployment data initialized with real workout');
 };
 
 // Clear demo data (use for reset)

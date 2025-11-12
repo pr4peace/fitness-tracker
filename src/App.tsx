@@ -3,7 +3,6 @@ import './App.css';
 import './styles/design-system.css';
 import { initializeDeploymentData } from './utils/deploymentData';
 import ModernWorkoutForm from './components/ModernWorkoutForm';
-import SampleDataButton from './components/SampleDataButton';
 import ActivityHistoryCompact from './components/ActivityHistoryCompact';
 import ExerciseGroupSelector, { ExerciseGroup } from './components/ExerciseGroupSelector';
 import LastWorkoutCard from './components/LastWorkoutCard';
@@ -104,10 +103,6 @@ function App() {
               </div>
 
               {/* Sample data button for demo */}
-              <div className="demo-section glass-card">
-                <h3 className="text-subheading">Demo Data</h3>
-                <SampleDataButton onDataLoaded={handleDataUpdate} />
-              </div>
 
               {/* Activity history */}
               <div className="activity-section glass-card">
