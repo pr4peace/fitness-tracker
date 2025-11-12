@@ -174,7 +174,7 @@ function App() {
                           ? lastWorkout.exercises.map(ex => ex.name)
                           : selectedExerciseGroup.exercises
                       }
-                      repeatWorkout={workoutMode === 'repeat' ? lastWorkout : undefined}
+                      repeatWorkout={workoutMode === 'repeat' ? lastWorkout || undefined : undefined}
                     />
                   </>
                 )}
