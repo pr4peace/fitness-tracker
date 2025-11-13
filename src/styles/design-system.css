@@ -638,15 +638,17 @@
   color: #6b7280;
 }
 
-.last-workout-actions {
+/* Title row with repeat button */
+.last-workout-title-row {
   display: flex;
-  justify-content: center;
-  margin-top: var(--space-4);
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
 }
 
-.last-workout-actions .repeat-fab {
-  /* Override the flex: 1 for repeat button */
+.last-workout-title-row .repeat-fab {
   flex: none;
+  margin-left: auto;
 }
 
 .btn-secondary {
@@ -1003,9 +1005,9 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: rgba(52, 211, 153, 0.1);
-  border: 1px solid rgba(52, 211, 153, 0.2);
-  color: var(--primary-green);
+  background: var(--gradient-green);
+  border: none;
+  color: white;
   font-size: 16px;
   font-weight: 400;
   display: flex;
@@ -1013,12 +1015,12 @@
   justify-content: center;
   cursor: pointer;
   transition: all var(--transition-fast);
+  box-shadow: 0 2px 8px rgba(52, 211, 153, 0.3);
 }
 
 .repeat-fab:hover {
-  background: rgba(52, 211, 153, 0.2);
-  border-color: rgba(52, 211, 153, 0.4);
   transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(52, 211, 153, 0.4);
 }
 
 .repeat-fab:active {
@@ -1030,28 +1032,28 @@
   width: 100%;
   padding: var(--space-3);
   margin-top: var(--space-4);
-  background: transparent;
-  border: 2px dashed rgba(52, 211, 153, 0.3);
-  color: var(--primary-green);
+  background: var(--gradient-green);
+  border: none;
+  color: white;
   border-radius: var(--radius-lg);
   font-size: var(--text-sm);
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-semibold);
   cursor: pointer;
   transition: all var(--transition-fast);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-1);
+  box-shadow: 0 4px 12px rgba(52, 211, 153, 0.3);
 }
 
 .create-new-bottom-btn:hover {
-  background: rgba(52, 211, 153, 0.05);
-  border-color: rgba(52, 211, 153, 0.5);
-  color: var(--primary-green);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(52, 211, 153, 0.4);
 }
 
 .create-new-bottom-btn:active {
-  transform: scale(0.99);
+  transform: translateY(0);
 }
 
 /* Floating Workout Overview */

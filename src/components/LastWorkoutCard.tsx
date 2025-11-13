@@ -59,11 +59,23 @@ const LastWorkoutCard: React.FC<LastWorkoutCardProps> = ({
       <div className="last-workout-header" onClick={() => setShowDetails(!showDetails)}>
         <div className="last-workout-main">
           <div className="last-workout-badge">Last Workout</div>
-          <h4 className="last-workout-title">
-            {workout.category.split('-').map(word => 
-              word.charAt(0).toUpperCase() + word.slice(1)
-            ).join(' ')} Session
-          </h4>
+          <div className="last-workout-title-row">
+            <h4 className="last-workout-title">
+              {workout.category.split('-').map(word => 
+                word.charAt(0).toUpperCase() + word.slice(1)
+              ).join(' ')} Session
+            </h4>
+            <button 
+              className="repeat-fab"
+              onClick={(e) => {
+                e.stopPropagation();
+                onRepeatWorkout();
+              }}
+              title="Repeat this exact workout"
+            >
+              ⟲
+            </button>
+          </div>
           <div className="last-workout-meta">
             <span className="last-workout-date">{formatDate(workout.date)}</span>
             <span className="last-workout-separator">•</span>
@@ -111,16 +123,6 @@ const LastWorkoutCard: React.FC<LastWorkoutCardProps> = ({
           )}
         </div>
       )}
-
-      <div className="last-workout-actions">
-        <button 
-          className="repeat-fab"
-          onClick={onRepeatWorkout}
-          title="Repeat this exact workout"
-        >
-          ⟲
-        </button>
-      </div>
     </div>
   );
 };
