@@ -56,11 +56,15 @@ const ExerciseSelector: React.FC<ExerciseSelectorProps> = ({
   }, [value]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Only allow typing if custom input is enabled
+    if (!allowCustomInput) {
+      return; // Block all typing when custom input is disabled
+    }
+    
     const newValue = e.target.value;
     setSearchTerm(newValue);
     setIsOpen(true);
     
-    // Only allow onChange for custom input if allowCustomInput is true
     if (!isOpen && allowCustomInput) {
       onChange(newValue);
     }
@@ -74,6 +78,16 @@ const ExerciseSelector: React.FC<ExerciseSelectorProps> = ({
   };
 
   const handleInputKeyDown = (e: React.KeyboardEvent) => {
+    // Block all text input keys when custom input is disabled
+    if (!allowCustomInput) {
+      // Only allow navigation and selection keys
+      const allowedKeys = ['ArrowDown', 'ArrowUp', 'Enter', 'Escape', 'Tab'];
+      if (!allowedKeys.includes(e.key)) {
+        e.preventDefault();
+        return;
+      }
+    }
+    
     if (!isOpen) {
       if (e.key === 'ArrowDown' || e.key === 'Enter') {
         setIsOpen(true);
@@ -194,8 +208,14 @@ const ExerciseSelector: React.FC<ExerciseSelectorProps> = ({
         className={`exercise-name-input ${!allowCustomInput ? 'selection-only' : ''}`}
         placeholder={placeholder}
         autoComplete="off"
-        readOnly={!allowCustomInput && !isOpen}
+        readOnly={!allowCustomInput}
       />
+      
+      {!allowCustomInput && (
+        <div className="dropdown-arrow" onClick={() => setIsOpen(!isOpen)}>
+          <span className={`arrow-icon ${isOpen ? 'open' : ''}`}>▼</span>
+        </div>
+      )}
       
       {isOpen && filteredExercises.length > 0 && (
         <div className="exercise-dropdown">
