@@ -70,29 +70,6 @@ function App() {
           </div>
         </header>
 
-        {/* Modern iOS-style navigation */}
-        <nav className="modern-nav glass-card animate-fade-in animate-delay-1">
-          <div className="ios-toggle">
-            <button 
-              onClick={() => setCurrentView('home')}
-              className={currentView === 'home' ? 'active' : ''}
-            >
-              Dashboard
-            </button>
-            <button 
-              onClick={() => setCurrentView('log-gym')}
-              className={currentView === 'log-gym' ? 'active' : ''}
-            >
-              Log Gym
-            </button>
-            <button 
-              onClick={() => setCurrentView('log-run')}
-              className={currentView === 'log-run' ? 'active' : ''}
-            >
-              Log Run
-            </button>
-          </div>
-        </nav>
 
         {/* Main content */}
         <main className="modern-main">
@@ -115,6 +92,11 @@ function App() {
           
           {currentView === 'log-gym' && (
             <div className="workout-form-container animate-fade-in animate-delay-2">
+              {/* Workout Overview back at top */}
+              <div className="workout-overview-section">
+                <WorkoutOverview key={refreshTrigger} />
+              </div>
+              
               <div className="form-card glass-card">
                 {/* Step 1: Exercise Group Selection */}
                 {workoutMode === 'select' && !selectedExerciseGroup && (
@@ -206,17 +188,30 @@ function App() {
         </main>
       </div>
 
-      {/* Floating Workout Overview - only show on log-gym view */}
-      {currentView === 'log-gym' && (
-        <div className="floating-workout-overview">
-          <WorkoutOverview key={refreshTrigger} />
-        </div>
-      )}
-
-      {/* Floating Action Button */}
-      <button className="fab glass-card">
-        <span className="fab-icon">+</span>
-      </button>
+      {/* iOS-style Bottom Navigation */}
+      <nav className="bottom-nav glass-card">
+        <button 
+          onClick={() => setCurrentView('home')}
+          className={`nav-item ${currentView === 'home' ? 'active' : ''}`}
+        >
+          <span className="nav-icon">📊</span>
+          <span className="nav-label">Dashboard</span>
+        </button>
+        <button 
+          onClick={() => setCurrentView('log-gym')}
+          className={`nav-item ${currentView === 'log-gym' ? 'active' : ''}`}
+        >
+          <span className="nav-icon">🏋️‍♂️</span>
+          <span className="nav-label">Log Gym</span>
+        </button>
+        <button 
+          onClick={() => setCurrentView('log-run')}
+          className={`nav-item ${currentView === 'log-run' ? 'active' : ''}`}
+        >
+          <span className="nav-icon">🏃‍♂️</span>
+          <span className="nav-label">Log Run</span>
+        </button>
+      </nav>
     </div>
   );
 }
