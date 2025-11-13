@@ -114,11 +114,11 @@ const LastWorkoutCard: React.FC<LastWorkoutCardProps> = ({
 
       <div className="last-workout-actions">
         <button 
-          className="btn-secondary"
+          className="repeat-fab"
           onClick={onRepeatWorkout}
           title="Repeat this exact workout"
         >
-          Repeat
+          ⟲
         </button>
       </div>
     </div>

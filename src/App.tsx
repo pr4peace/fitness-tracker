@@ -108,7 +108,7 @@ function App() {
                 
                 {/* Step 2: Show Last Workout & Options */}
                 {workoutMode === 'select' && selectedExerciseGroup && (
-                  <>
+                  <div className="workout-selection-container">
                     <div className="workout-flow-header">
                       <button 
                         className="back-button"
@@ -122,20 +122,22 @@ function App() {
                       </h2>
                     </div>
                     
-                    <LastWorkoutCard 
-                      workout={lastWorkout}
-                      onRepeatWorkout={handleRepeatWorkout}
-                    />
+                    <div className="last-workout-container">
+                      <LastWorkoutCard 
+                        workout={lastWorkout}
+                        onRepeatWorkout={handleRepeatWorkout}
+                      />
+                    </div>
                     
-                    {/* Separate Create New button outside the card */}
+                    {/* Create New button below the card */}
                     <button 
-                      className="create-new-workout-btn btn-primary"
+                      className="create-new-bottom-btn"
                       onClick={handleCreateNew}
-                      title="Start a new workout in this category"
+                      title="Create new workout"
                     >
-                      Create New Workout
+                      + Create New Workout
                     </button>
-                  </>
+                  </div>
                 )}
                 
                 {/* Step 3: Workout Form */}
@@ -194,21 +196,18 @@ function App() {
           onClick={() => setCurrentView('home')}
           className={`nav-item ${currentView === 'home' ? 'active' : ''}`}
         >
-          <span className="nav-icon">📊</span>
           <span className="nav-label">Dashboard</span>
         </button>
         <button 
           onClick={() => setCurrentView('log-gym')}
           className={`nav-item ${currentView === 'log-gym' ? 'active' : ''}`}
         >
-          <span className="nav-icon">🏋️‍♂️</span>
           <span className="nav-label">Log Gym</span>
         </button>
         <button 
           onClick={() => setCurrentView('log-run')}
           className={`nav-item ${currentView === 'log-run' ? 'active' : ''}`}
         >
-          <span className="nav-icon">🏃‍♂️</span>
           <span className="nav-label">Log Run</span>
         </button>
       </nav>
