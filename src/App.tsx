@@ -146,8 +146,16 @@ function App() {
                     <LastWorkoutCard 
                       workout={lastWorkout}
                       onRepeatWorkout={handleRepeatWorkout}
-                      onCreateNew={handleCreateNew}
                     />
+                    
+                    {/* Separate Create New button outside the card */}
+                    <button 
+                      className="create-new-workout-btn btn-primary"
+                      onClick={handleCreateNew}
+                      title="Start a new workout in this category"
+                    >
+                      Create New Workout
+                    </button>
                   </>
                 )}
                 

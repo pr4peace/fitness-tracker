@@ -4,13 +4,11 @@ import { GymWorkout } from '../types/index';
 interface LastWorkoutCardProps {
   workout: GymWorkout | null;
   onRepeatWorkout: () => void;
-  onCreateNew: () => void;
 }
 
 const LastWorkoutCard: React.FC<LastWorkoutCardProps> = ({ 
   workout, 
-  onRepeatWorkout, 
-  onCreateNew 
+  onRepeatWorkout
 }) => {
   const [showDetails, setShowDetails] = useState(false);
 
@@ -46,13 +44,8 @@ const LastWorkoutCard: React.FC<LastWorkoutCardProps> = ({
           <div className="empty-icon">🏋️‍♂️</div>
           <div className="empty-text">
             <h4>No previous workout</h4>
-            <p>Start fresh with a new workout</p>
+            <p>Ready to start your fitness journey?</p>
           </div>
-        </div>
-        <div className="last-workout-actions">
-          <button className="btn-primary" onClick={onCreateNew}>
-            Create New Workout
-          </button>
         </div>
       </div>
     );
@@ -126,13 +119,6 @@ const LastWorkoutCard: React.FC<LastWorkoutCardProps> = ({
           title="Repeat this exact workout"
         >
           Repeat
-        </button>
-        <button 
-          className="btn-primary"
-          onClick={onCreateNew}
-          title="Start a new workout in this category"
-        >
-          Create New
         </button>
       </div>
     </div>

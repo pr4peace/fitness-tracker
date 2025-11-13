@@ -996,6 +996,33 @@
   transform: rotate(180deg);
 }
 
+/* Separate Create New Workout Button */
+.create-new-workout-btn {
+  width: 100%;
+  margin-top: var(--space-4);
+  padding: var(--space-4) var(--space-6);
+  font-size: var(--text-lg);
+  font-weight: var(--font-weight-semibold);
+  border-radius: var(--radius-lg);
+  border: none;
+  background: var(--gradient-green);
+  color: white;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: var(--glass-shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.create-new-workout-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px 0 rgba(52, 211, 153, 0.3);
+}
+
+.create-new-workout-btn:active {
+  transform: translateY(0);
+}
+
 .remove-exercise-btn {
   background: none;
   border: none;
