@@ -62,7 +62,7 @@ const LastWorkoutCard: React.FC<LastWorkoutCardProps> = ({
           <h4 className="last-workout-title">
             {workout.category.split('-').map(word => 
               word.charAt(0).toUpperCase() + word.slice(1)
-            ).join(' ')} Session
+            ).join(' ')} Workout
           </h4>
           <div className="last-workout-meta">
             <span className="last-workout-date">{formatDate(workout.date)}</span>
@@ -93,7 +93,6 @@ const LastWorkoutCard: React.FC<LastWorkoutCardProps> = ({
               e.stopPropagation();
               onRepeatWorkout();
             }}
-            title="Repeat this exact workout"
           >
             ↻
           </button>

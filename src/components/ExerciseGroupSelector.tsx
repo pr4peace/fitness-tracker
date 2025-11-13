@@ -69,8 +69,6 @@ const ExerciseGroupSelector: React.FC<ExerciseGroupSelectorProps> = ({
   onGroupSelect, 
   selectedGroup 
 }) => {
-  const [hoveredGroup, setHoveredGroup] = useState<string | null>(null);
-
   return (
     <div className="exercise-group-selector">
       <h3 className="text-subheading" style={{ marginBottom: 'var(--space-4)' }}>
@@ -85,30 +83,10 @@ const ExerciseGroupSelector: React.FC<ExerciseGroupSelectorProps> = ({
               selectedGroup?.id === group.id ? 'selected' : ''
             }`}
             onClick={() => onGroupSelect(group)}
-            onMouseEnter={() => setHoveredGroup(group.id)}
-            onMouseLeave={() => setHoveredGroup(null)}
           >
             <div className="exercise-group-icon">{group.icon}</div>
             <div className="exercise-group-title">{group.title}</div>
             <div className="exercise-group-subtitle">{group.subtitle}</div>
-            
-            {hoveredGroup === group.id && (
-              <div className="exercise-preview">
-                <div className="exercise-preview-title">Includes:</div>
-                <div className="exercise-preview-list">
-                  {group.exercises.slice(0, 3).map((exercise, index) => (
-                    <span key={index} className="exercise-preview-item">
-                      {exercise}
-                    </span>
-                  ))}
-                  {group.exercises.length > 3 && (
-                    <span className="exercise-preview-more">
-                      +{group.exercises.length - 3} more
-                    </span>
-                  )}
-                </div>
-              </div>
-            )}
           </div>
         ))}
       </div>

@@ -1731,8 +1731,8 @@
 
 /* App Header with branding */
 .app-header {
-  padding: var(--space-5);
-  margin-bottom: var(--space-6);
+  padding: var(--space-6) var(--space-5) var(--space-5) var(--space-5);
+  margin: var(--space-4) 0 var(--space-6) 0;
   background: var(--glass-bg);
   backdrop-filter: blur(12px);
   border-radius: var(--radius-xl);
@@ -1751,14 +1751,12 @@
 
 .app-title {
   margin: 0 0 var(--space-3) 0;
-  font-size: var(--text-xl);
-  font-weight: var(--font-weight-bold);
-  color: var(--primary-green);
-  background: linear-gradient(135deg, var(--primary-green), var(--accent-green));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  letter-spacing: -0.025em;
+  font-size: 28px;
+  font-weight: 900;
+  color: #1f2937;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', 'Arial Black', sans-serif;
 }
 
 .user-info {
@@ -1789,6 +1787,72 @@
 .coach-detail strong {
   color: var(--primary-green);
   font-weight: var(--font-weight-semibold);
+}
+
+/* AI-Generated Card Style */
+.ai-card {
+  position: relative;
+  background: linear-gradient(135deg, 
+    rgba(139, 92, 246, 0.1) 0%, 
+    rgba(168, 85, 247, 0.05) 50%,
+    rgba(236, 72, 153, 0.1) 100%);
+  border: 1.5px solid rgba(139, 92, 246, 0.3);
+  border-radius: 20px;
+  padding: 20px;
+  backdrop-filter: blur(12px);
+  box-shadow: 
+    0 8px 32px rgba(139, 92, 246, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.ai-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, 
+    #8b5cf6 0%, 
+    #a855f7 50%, 
+    #ec4899 100%);
+  animation: aiShimmer 3s ease-in-out infinite;
+}
+
+@keyframes aiShimmer {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.ai-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 12px 40px rgba(139, 92, 246, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  border-color: rgba(139, 92, 246, 0.5);
+}
+
+.ai-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #8b5cf6, #a855f7);
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+}
+
+.ai-badge::before {
+  content: '✨';
+  font-size: 12px;
 }
 
 /* Universal overflow prevention for mobile container */

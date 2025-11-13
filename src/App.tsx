@@ -62,16 +62,12 @@ function App() {
           <div className="app-branding">
             <h1 className="app-title">Easy Fitness</h1>
             <div className="user-info">
-              <h2 className="user-name">Hey, Prashanth! 👋</h2>
+              <h2 className="user-name">Hey, Prashanth!</h2>
               <div className="coach-info">
-                <span className="coach-detail">🏋️ Gym sessions coached by <strong>Baiju</strong></span>
-                <span className="coach-detail">🏃 Runs coached by <strong>Ajith</strong></span>
+                <span className="coach-detail">Gym sessions coached by <strong>Baiju</strong></span>
+                <span className="coach-detail">Runs coached by <strong>Ajith</strong></span>
               </div>
             </div>
-          </div>
-          <div className="streak-badge">
-            <span className="streak-number">🔥 7</span>
-            <span className="streak-label">day streak</span>
           </div>
         </header>
 
@@ -118,7 +114,6 @@ function App() {
                       <button 
                         className="back-button"
                         onClick={resetWorkoutFlow}
-                        title="Choose different workout type"
                       >
                         ← Back
                       </button>
@@ -138,7 +133,6 @@ function App() {
                     <button 
                       className="create-new-bottom-btn"
                       onClick={handleCreateNew}
-                      title="Create new workout"
                     >
                       + Create New Workout
                     </button>
@@ -152,7 +146,6 @@ function App() {
                       <button 
                         className="back-button"
                         onClick={() => setWorkoutMode('select')}
-                        title="Back to workout options"
                       >
                         ← Back
                       </button>

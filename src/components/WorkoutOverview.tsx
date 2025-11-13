@@ -79,16 +79,17 @@ const WorkoutOverview: React.FC = () => {
   };
 
   return (
-    <div className="workout-overview-conversational">
+    <div className="ai-card">
+      <div className="ai-badge">AI Insights</div>
       {recentActivities.length > 0 ? (
         <div className="conversational-message">
-          Your last workout was <span className="workout-highlight">{getHighlightedWorkoutType()}</span>{' '}
-          {formatRelativeDate(recentActivities[0].date).toLowerCase()} and it's{' '}
-          {(recentActivities[0].data as GymWorkout).duration} mins long.
+          Your last workout was a <span className="workout-highlight">{getHighlightedWorkoutType()}</span> session{' '}
+          {formatRelativeDate(recentActivities[0].date).toLowerCase()}, lasting{' '}
+          {(recentActivities[0].data as GymWorkout).duration} minutes.
         </div>
       ) : (
         <div className="conversational-message">
-          Ready to start your fitness journey? Pick a workout type to get started! 🏋️‍♂️
+          Ready to start your fitness journey? Pick a workout type to get started!
         </div>
       )}
     </div>

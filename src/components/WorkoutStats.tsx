@@ -60,47 +60,41 @@ const WorkoutStats: React.FC = () => {
 
     // Calculate streak (consecutive days with workouts)
     let streak = 0;
-    let checkDate = new Date(now);
-    checkDate.setHours(0, 0, 0, 0);
     
-    // Find the most recent workout date
-    const sortedActivities = activities
-      .map(activity => {
-        const date = new Date(activity.date);
-        date.setHours(0, 0, 0, 0);
-        return date.getTime();
-      })
-      .sort((a, b) => b - a); // Most recent first
-    
-    if (sortedActivities.length === 0) {
+    if (activities.length === 0) {
       streak = 0;
     } else {
-      // Check if there's a workout today or yesterday
-      const today = checkDate.getTime();
-      const yesterday = today - (24 * 60 * 60 * 1000);
-      const mostRecentWorkout = sortedActivities[0];
+      // Get unique workout dates, sorted most recent first
+      const workoutDates = Array.from(new Set(
+        activities.map(activity => {
+          const date = new Date(activity.date);
+          date.setHours(0, 0, 0, 0);
+          return date.getTime();
+        })
+      )).sort((a, b) => b - a);
       
-      // Start streak calculation from most recent workout
-      if (mostRecentWorkout === today || mostRecentWorkout === yesterday) {
-        checkDate = new Date(mostRecentWorkout);
+      const today = new Date(now);
+      today.setHours(0, 0, 0, 0);
+      const todayTime = today.getTime();
+      const yesterdayTime = todayTime - (24 * 60 * 60 * 1000);
+      
+      // Check if streak starts today or yesterday
+      const mostRecentWorkout = workoutDates[0];
+      
+      if (mostRecentWorkout === todayTime || mostRecentWorkout === yesterdayTime) {
+        // Count consecutive days backwards
+        let currentDate = mostRecentWorkout;
         
-        // Count consecutive days backwards from most recent workout
-        while (streak < 30) {
-          const dayActivities = activities.filter(activity => {
-            const activityDate = new Date(activity.date);
-            activityDate.setHours(0, 0, 0, 0);
-            return activityDate.getTime() === checkDate.getTime();
-          });
-          
-          if (dayActivities.length > 0) {
+        for (let i = 0; i < workoutDates.length && i < 30; i++) {
+          if (workoutDates[i] === currentDate) {
             streak++;
-            checkDate.setDate(checkDate.getDate() - 1);
+            currentDate -= (24 * 60 * 60 * 1000); // Go back one day
           } else {
-            break;
+            break; // Gap found, streak ends
           }
         }
       } else {
-        streak = 0; // No workout today or yesterday = no current streak
+        streak = 0; // No recent workouts
       }
     }
 
