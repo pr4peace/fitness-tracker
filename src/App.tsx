@@ -51,22 +51,27 @@ function App() {
   };
 
   return (
-    <div className="modern-app">
-      {/* Modern gradient background */}
-      <div className="app-background"></div>
+    <div className="app-viewport">
+      {/* Premium mobile app background */}
+      <div className="mobile-app-background"></div>
       
-      <div className="container">
-        {/* Welcome header with glassmorphism */}
-        <header className="welcome-header glass-card animate-fade-in">
-          <div className="welcome-content">
-            <div className="user-greeting">
-              <h1 className="text-heading">Hey, Fitness Pro! 👋</h1>
-              <p className="text-body">Welcome back. Keep crushing your goals!</p>
+      <div className="mobile-app-container">
+        <div className="app-content">
+        {/* App header with branding and coaching info */}
+        <header className="app-header">
+          <div className="app-branding">
+            <h1 className="app-title">Easy Fitness</h1>
+            <div className="user-info">
+              <h2 className="user-name">Hey, Prashanth! 👋</h2>
+              <div className="coach-info">
+                <span className="coach-detail">🏋️ Gym sessions coached by <strong>Baiju</strong></span>
+                <span className="coach-detail">🏃 Runs coached by <strong>Ajith</strong></span>
+              </div>
             </div>
-            <div className="streak-badge">
-              <span className="streak-number">🔥 7</span>
-              <span className="streak-label">day streak</span>
-            </div>
+          </div>
+          <div className="streak-badge">
+            <span className="streak-number">🔥 7</span>
+            <span className="streak-label">day streak</span>
           </div>
         </header>
 
@@ -270,35 +275,38 @@ function App() {
             </div>
           )}
         </main>
+        </div>
+        
+        {/* iOS-style Bottom Navigation */}
+        <nav className="bottom-nav">
+          <div className="nav-container">
+            <button 
+              onClick={() => setCurrentView('home')}
+              className={`nav-item ${currentView === 'home' ? 'active' : ''}`}
+            >
+              <span className="nav-label">Dashboard</span>
+            </button>
+            <button 
+              onClick={() => setCurrentView('log-gym')}
+              className={`nav-item ${currentView === 'log-gym' ? 'active' : ''}`}
+            >
+              <span className="nav-label">Log Gym</span>
+            </button>
+            <button 
+              onClick={() => setCurrentView('log-run')}
+              className={`nav-item ${currentView === 'log-run' ? 'active' : ''}`}
+            >
+              <span className="nav-label">Log Run</span>
+            </button>
+            <button 
+              onClick={() => setCurrentView('profile')}
+              className={`nav-item ${currentView === 'profile' ? 'active' : ''}`}
+            >
+              <span className="nav-label">Profile</span>
+            </button>
+          </div>
+        </nav>
       </div>
-
-      {/* iOS-style Bottom Navigation */}
-      <nav className="bottom-nav glass-card">
-        <button 
-          onClick={() => setCurrentView('home')}
-          className={`nav-item ${currentView === 'home' ? 'active' : ''}`}
-        >
-          <span className="nav-label">Dashboard</span>
-        </button>
-        <button 
-          onClick={() => setCurrentView('log-gym')}
-          className={`nav-item ${currentView === 'log-gym' ? 'active' : ''}`}
-        >
-          <span className="nav-label">Log Gym</span>
-        </button>
-        <button 
-          onClick={() => setCurrentView('log-run')}
-          className={`nav-item ${currentView === 'log-run' ? 'active' : ''}`}
-        >
-          <span className="nav-label">Log Run</span>
-        </button>
-        <button 
-          onClick={() => setCurrentView('profile')}
-          className={`nav-item ${currentView === 'profile' ? 'active' : ''}`}
-        >
-          <span className="nav-label">Profile</span>
-        </button>
-      </nav>
     </div>
   );
 }

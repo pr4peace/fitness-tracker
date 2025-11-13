@@ -63,18 +63,44 @@ const WorkoutStats: React.FC = () => {
     let checkDate = new Date(now);
     checkDate.setHours(0, 0, 0, 0);
     
-    while (streak < 30) { // Check up to 30 days
-      const dayActivities = activities.filter(activity => {
-        const activityDate = new Date(activity.date);
-        activityDate.setHours(0, 0, 0, 0);
-        return activityDate.getTime() === checkDate.getTime();
-      });
+    // Find the most recent workout date
+    const sortedActivities = activities
+      .map(activity => {
+        const date = new Date(activity.date);
+        date.setHours(0, 0, 0, 0);
+        return date.getTime();
+      })
+      .sort((a, b) => b - a); // Most recent first
+    
+    if (sortedActivities.length === 0) {
+      streak = 0;
+    } else {
+      // Check if there's a workout today or yesterday
+      const today = checkDate.getTime();
+      const yesterday = today - (24 * 60 * 60 * 1000);
+      const mostRecentWorkout = sortedActivities[0];
       
-      if (dayActivities.length > 0) {
-        streak++;
-        checkDate.setDate(checkDate.getDate() - 1);
+      // Start streak calculation from most recent workout
+      if (mostRecentWorkout === today || mostRecentWorkout === yesterday) {
+        checkDate = new Date(mostRecentWorkout);
+        
+        // Count consecutive days backwards from most recent workout
+        while (streak < 30) {
+          const dayActivities = activities.filter(activity => {
+            const activityDate = new Date(activity.date);
+            activityDate.setHours(0, 0, 0, 0);
+            return activityDate.getTime() === checkDate.getTime();
+          });
+          
+          if (dayActivities.length > 0) {
+            streak++;
+            checkDate.setDate(checkDate.getDate() - 1);
+          } else {
+            break;
+          }
+        }
       } else {
-        break;
+        streak = 0; // No workout today or yesterday = no current streak
       }
     }
 
