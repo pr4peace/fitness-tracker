@@ -640,12 +640,13 @@
 
 .last-workout-actions {
   display: flex;
-  gap: var(--space-4);
-  margin-top: var(--space-6);
+  justify-content: center;
+  margin-top: var(--space-4);
 }
 
-.last-workout-actions button {
-  flex: 1;
+.last-workout-actions .repeat-fab {
+  /* Override the flex: 1 for repeat button */
+  flex: none;
 }
 
 .btn-secondary {
@@ -999,16 +1000,13 @@
 /* Separate Create New Workout Button */
 /* Circular Repeat FAB */
 .repeat-fab {
-  position: absolute;
-  top: var(--space-3);
-  right: var(--space-3);
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background: rgba(52, 211, 153, 0.1);
   border: 1px solid rgba(52, 211, 153, 0.2);
   color: var(--primary-green);
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 400;
   display: flex;
   align-items: center;
