@@ -1023,6 +1023,30 @@
   transform: translateY(0);
 }
 
+/* Floating Workout Overview */
+.floating-workout-overview {
+  position: fixed;
+  bottom: var(--space-6);
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - var(--space-8));
+  max-width: 600px;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.floating-workout-overview > * {
+  pointer-events: auto;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .floating-workout-overview {
+    bottom: var(--space-4);
+    width: calc(100% - var(--space-6));
+  }
+}
+
 .remove-exercise-btn {
   background: none;
   border: none;

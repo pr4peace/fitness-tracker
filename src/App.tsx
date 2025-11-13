@@ -115,9 +115,6 @@ function App() {
           
           {currentView === 'log-gym' && (
             <div className="workout-form-container animate-fade-in animate-delay-2">
-              {/* Workout Overview - shows activity across all types */}
-              <WorkoutOverview key={refreshTrigger} />
-              
               <div className="form-card glass-card">
                 {/* Step 1: Exercise Group Selection */}
                 {workoutMode === 'select' && !selectedExerciseGroup && (
@@ -208,6 +205,13 @@ function App() {
           )}
         </main>
       </div>
+
+      {/* Floating Workout Overview - only show on log-gym view */}
+      {currentView === 'log-gym' && (
+        <div className="floating-workout-overview">
+          <WorkoutOverview key={refreshTrigger} />
+        </div>
+      )}
 
       {/* Floating Action Button */}
       <button className="fab glass-card">
