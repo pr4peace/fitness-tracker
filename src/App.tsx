@@ -13,7 +13,7 @@ import { storage } from './utils/storage';
 import { GymWorkout, WorkoutCategory } from './types/index';
 
 function App() {
-  const [currentView, setCurrentView] = useState<'home' | 'log-gym' | 'log-run'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'log-gym' | 'log-run' | 'profile'>('home');
   const [refreshTrigger, setRefreshTrigger] = useState(0);
   const [selectedExerciseGroup, setSelectedExerciseGroup] = useState<ExerciseGroup | undefined>();
   const [lastWorkout, setLastWorkout] = useState<GymWorkout | null>(null);
@@ -187,6 +187,88 @@ function App() {
               </div>
             </div>
           )}
+
+          {currentView === 'profile' && (
+            <div className="profile-container animate-fade-in animate-delay-2">
+              {/* Profile Header */}
+              <div className="profile-header glass-card">
+                <div className="profile-avatar">
+                  <div className="avatar-placeholder">👤</div>
+                </div>
+                <div className="profile-info">
+                  <h2 className="text-heading">Fitness Pro</h2>
+                  <p className="text-body">Keep crushing your goals!</p>
+                </div>
+              </div>
+
+              {/* Settings Sections */}
+              <div className="settings-sections">
+                
+                {/* Exercise Management */}
+                <div className="settings-card glass-card">
+                  <div className="settings-header">
+                    <h3 className="text-subheading">Exercise Management</h3>
+                    <p className="text-small">Manage exercises, categories, and templates</p>
+                  </div>
+                  <div className="settings-options">
+                    <button className="settings-option">
+                      <span className="option-label">Exercise Database</span>
+                      <span className="option-arrow">→</span>
+                    </button>
+                    <button className="settings-option">
+                      <span className="option-label">Workout Templates</span>
+                      <span className="option-arrow">→</span>
+                    </button>
+                    <button className="settings-option">
+                      <span className="option-label">Categories & Groups</span>
+                      <span className="option-arrow">→</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* App Settings */}
+                <div className="settings-card glass-card">
+                  <div className="settings-header">
+                    <h3 className="text-subheading">App Settings</h3>
+                    <p className="text-small">Customize your experience</p>
+                  </div>
+                  <div className="settings-options">
+                    <button className="settings-option">
+                      <span className="option-label">Units & Preferences</span>
+                      <span className="option-arrow">→</span>
+                    </button>
+                    <button className="settings-option">
+                      <span className="option-label">Notifications</span>
+                      <span className="option-arrow">→</span>
+                    </button>
+                    <button className="settings-option">
+                      <span className="option-label">Export Data</span>
+                      <span className="option-arrow">→</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Account (Future) */}
+                <div className="settings-card glass-card">
+                  <div className="settings-header">
+                    <h3 className="text-subheading">Account</h3>
+                    <p className="text-small">Sync and backup your data</p>
+                  </div>
+                  <div className="settings-options">
+                    <button className="settings-option disabled">
+                      <span className="option-label">Sign In / Register</span>
+                      <span className="option-badge">Coming Soon</span>
+                    </button>
+                    <button className="settings-option disabled">
+                      <span className="option-label">Cloud Sync</span>
+                      <span className="option-badge">Coming Soon</span>
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          )}
         </main>
       </div>
 
@@ -209,6 +291,12 @@ function App() {
           className={`nav-item ${currentView === 'log-run' ? 'active' : ''}`}
         >
           <span className="nav-label">Log Run</span>
+        </button>
+        <button 
+          onClick={() => setCurrentView('profile')}
+          className={`nav-item ${currentView === 'profile' ? 'active' : ''}`}
+        >
+          <span className="nav-label">Profile</span>
         </button>
       </nav>
     </div>
