@@ -1047,6 +1047,32 @@
   }
 }
 
+/* Conversational Workout Overview */
+.workout-overview-conversational {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-4);
+  animation: fadeInUp 0.4s ease;
+}
+
+.conversational-message {
+  font-size: var(--text-base);
+  line-height: 1.5;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.workout-highlight {
+  background: var(--gradient-green);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: var(--font-weight-semibold);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
 .remove-exercise-btn {
   background: none;
   border: none;

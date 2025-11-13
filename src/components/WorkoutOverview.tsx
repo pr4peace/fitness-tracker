@@ -4,7 +4,6 @@ import { Activity, GymWorkout } from '../types/index';
 
 const WorkoutOverview: React.FC = () => {
   const [recentActivities, setRecentActivities] = useState<Activity[]>([]);
-  const [lastWorkouts, setLastWorkouts] = useState<Record<string, GymWorkout>>({});
 
   useEffect(() => {
     loadRecentActivities();
@@ -18,16 +17,6 @@ const WorkoutOverview: React.FC = () => {
       .slice(0, 5); // Last 5 gym activities
 
     setRecentActivities(gymActivities);
-
-    // Get last workout for each category
-    const lastWorkoutsByCategory: Record<string, GymWorkout> = {};
-    gymActivities.forEach(activity => {
-      const workout = activity.data as GymWorkout;
-      if (!lastWorkoutsByCategory[workout.category]) {
-        lastWorkoutsByCategory[workout.category] = workout;
-      }
-    });
-    setLastWorkouts(lastWorkoutsByCategory);
   };
 
   const formatRelativeDate = (dateString: string) => {
@@ -78,20 +67,29 @@ const WorkoutOverview: React.FC = () => {
     return getCategoryDisplayName(category);
   };
 
+
+  const getHighlightedWorkoutType = (): string => {
+    if (recentActivities.length === 0) return "";
+    
+    const lastWorkout = recentActivities[0].data as GymWorkout;
+    const category = getCategoryDisplayName(lastWorkout.category);
+    const workoutType = getWorkoutGroupName(lastWorkout);
+    
+    return workoutType === category ? category : `${category} ${workoutType}`;
+  };
+
   return (
-    <div className="workout-overview-flag">
+    <div className="workout-overview-conversational">
       {recentActivities.length > 0 ? (
-        <span className="last-workout-flag">
-          <span className="flag-label">Last Workout:</span> 
-          <span className="flag-category">{getCategoryDisplayName((recentActivities[0].data as GymWorkout).category)}</span>
-          <span className="flag-type">{getWorkoutGroupName(recentActivities[0].data as GymWorkout)}</span> 
-          <span className="flag-duration">- {(recentActivities[0].data as GymWorkout).duration}mins</span>
-          <span className="flag-date">{formatRelativeDate(recentActivities[0].date)}</span>
-        </span>
+        <div className="conversational-message">
+          Your last workout was <span className="workout-highlight">{getHighlightedWorkoutType()}</span>{' '}
+          {formatRelativeDate(recentActivities[0].date).toLowerCase()} and it's{' '}
+          {(recentActivities[0].data as GymWorkout).duration} mins long.
+        </div>
       ) : (
-        <span className="no-workout-flag">
-          🏋️‍♂️ No workouts logged yet - Start by selecting a workout type below
-        </span>
+        <div className="conversational-message">
+          Ready to start your fitness journey? Pick a workout type to get started! 🏋️‍♂️
+        </div>
       )}
     </div>
   );
