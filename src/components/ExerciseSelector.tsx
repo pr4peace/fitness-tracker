@@ -8,14 +8,16 @@ interface ExerciseSelectorProps {
   category?: WorkoutCategory;
   placeholder?: string;
   className?: string;
+  allowCustomInput?: boolean; // New prop to control custom input
 }
 
 const ExerciseSelector: React.FC<ExerciseSelectorProps> = ({
   value,
   onChange,
   category,
-  placeholder = "Select or type exercise name",
-  className = ""
+  placeholder = "Select exercise",
+  className = "",
+  allowCustomInput = false
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState(value);
@@ -58,8 +60,8 @@ const ExerciseSelector: React.FC<ExerciseSelectorProps> = ({
     setSearchTerm(newValue);
     setIsOpen(true);
     
-    // If user is typing something that doesn't match an exercise, still call onChange
-    if (!isOpen) {
+    // Only allow onChange for custom input if allowCustomInput is true
+    if (!isOpen && allowCustomInput) {
       onChange(newValue);
     }
   };
@@ -96,8 +98,8 @@ const ExerciseSelector: React.FC<ExerciseSelectorProps> = ({
         e.preventDefault();
         if (highlightedIndex >= 0 && filteredExercises[highlightedIndex]) {
           handleExerciseSelect(filteredExercises[highlightedIndex]);
-        } else if (searchTerm.trim()) {
-          // User pressed enter with typed text
+        } else if (searchTerm.trim() && allowCustomInput) {
+          // User pressed enter with typed text (only if custom input is allowed)
           setIsOpen(false);
           onChange(searchTerm.trim());
           inputRef.current?.blur();
@@ -110,7 +112,7 @@ const ExerciseSelector: React.FC<ExerciseSelectorProps> = ({
         break;
       case 'Tab':
         setIsOpen(false);
-        if (searchTerm !== value) {
+        if (searchTerm !== value && allowCustomInput) {
           onChange(searchTerm.trim());
         }
         break;
@@ -124,8 +126,11 @@ const ExerciseSelector: React.FC<ExerciseSelectorProps> = ({
   const handleInputBlur = () => {
     // Small delay to allow click on dropdown item
     setTimeout(() => {
-      if (searchTerm !== value) {
+      if (searchTerm !== value && allowCustomInput) {
         onChange(searchTerm.trim());
+      } else if (!allowCustomInput) {
+        // Reset to original value if custom input not allowed
+        setSearchTerm(value);
       }
     }, 150);
   };
@@ -186,9 +191,10 @@ const ExerciseSelector: React.FC<ExerciseSelectorProps> = ({
         onKeyDown={handleInputKeyDown}
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
-        className="exercise-name-input"
+        className={`exercise-name-input ${!allowCustomInput ? 'selection-only' : ''}`}
         placeholder={placeholder}
         autoComplete="off"
+        readOnly={!allowCustomInput && !isOpen}
       />
       
       {isOpen && filteredExercises.length > 0 && (

@@ -232,7 +232,8 @@ const ModernWorkoutForm: React.FC<ModernWorkoutFormProps> = ({
                 value={exercise.name}
                 onChange={(name, exerciseData) => updateExerciseName(exercise.id, name, exerciseData)}
                 category={category}
-                placeholder="Select or type exercise name"
+                placeholder="Select exercise"
+                allowCustomInput={false}
               />
               <button
                 type="button"
