@@ -56,15 +56,16 @@ const ExerciseSelector: React.FC<ExerciseSelectorProps> = ({
   }, [value]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // Only allow typing if custom input is enabled
-    if (!allowCustomInput) {
-      return; // Block all typing when custom input is disabled
-    }
-    
     const newValue = e.target.value;
     setSearchTerm(newValue);
-    setIsOpen(true);
     
+    // Allow typing when dropdown is open (for search filtering)
+    if (isOpen) {
+      // This is search functionality - always allowed when dropdown is open
+      return;
+    }
+    
+    // Only allow custom text entry if allowCustomInput is true and dropdown is closed
     if (!isOpen && allowCustomInput) {
       onChange(newValue);
     }
@@ -78,9 +79,9 @@ const ExerciseSelector: React.FC<ExerciseSelectorProps> = ({
   };
 
   const handleInputKeyDown = (e: React.KeyboardEvent) => {
-    // Block all text input keys when custom input is disabled
-    if (!allowCustomInput) {
-      // Only allow navigation and selection keys
+    // Block text input keys only when dropdown is closed and custom input is disabled
+    if (!allowCustomInput && !isOpen) {
+      // Only allow navigation and selection keys when dropdown is closed
       const allowedKeys = ['ArrowDown', 'ArrowUp', 'Enter', 'Escape', 'Tab'];
       if (!allowedKeys.includes(e.key)) {
         e.preventDefault();
@@ -135,6 +136,10 @@ const ExerciseSelector: React.FC<ExerciseSelectorProps> = ({
 
   const handleInputFocus = () => {
     setIsOpen(true);
+    // Clear search term when opening dropdown to allow fresh search
+    if (!allowCustomInput) {
+      setSearchTerm('');
+    }
   };
 
   const handleInputBlur = () => {
@@ -206,13 +211,20 @@ const ExerciseSelector: React.FC<ExerciseSelectorProps> = ({
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
         className={`exercise-name-input ${!allowCustomInput ? 'selection-only' : ''}`}
-        placeholder={placeholder}
+        placeholder={isOpen && !allowCustomInput ? "Search exercises..." : placeholder}
         autoComplete="off"
-        readOnly={!allowCustomInput}
+        readOnly={!allowCustomInput && !isOpen}
       />
       
       {!allowCustomInput && (
-        <div className="dropdown-arrow" onClick={() => setIsOpen(!isOpen)}>
+        <div className="dropdown-arrow" onClick={() => {
+          const nextOpenState = !isOpen;
+          setIsOpen(nextOpenState);
+          if (nextOpenState) {
+            setSearchTerm(''); // Clear search when opening
+            inputRef.current?.focus(); // Focus input for typing
+          }
+        }}>
           <span className={`arrow-icon ${isOpen ? 'open' : ''}`}>▼</span>
         </div>
       )}
