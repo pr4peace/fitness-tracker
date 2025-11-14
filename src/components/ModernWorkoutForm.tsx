@@ -469,7 +469,7 @@ const ModernWorkoutForm: React.FC<ModernWorkoutFormProps> = ({
             <span>Saving...</span>
           </span>
         ) : (
-          'End Workout'
+          editingWorkout ? 'Modify Workout' : 'End Workout'
         )}
       </button>
     </form>

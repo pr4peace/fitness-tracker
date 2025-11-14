@@ -13,6 +13,7 @@ const ActivityHistoryCompact: React.FC<ActivityHistoryCompactProps> = ({ onEditA
   const [searchQuery, setSearchQuery] = useState('');
   const [activityFilter, setActivityFilter] = useState<'all' | 'gym' | 'run'>('all');
   const [showAllActivities, setShowAllActivities] = useState(false);
+  const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
 
   useEffect(() => {
     loadActivities();
@@ -25,6 +26,13 @@ const ActivityHistoryCompact: React.FC<ActivityHistoryCompactProps> = ({ onEditA
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
       .slice(0, 8)
     );
+  };
+
+  const handleDeleteActivity = (activityId: string) => {
+    storage.deleteActivity(activityId);
+    loadActivities(); // Refresh the list
+    setDeleteConfirm(null);
+    setExpandedCard(null);
   };
 
   const getExerciseGroup = (workout: GymWorkout): string => {
@@ -73,13 +81,27 @@ const ActivityHistoryCompact: React.FC<ActivityHistoryCompactProps> = ({ onEditA
     const diffTime = now.getTime() - date.getTime();
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
     
-    if (diffDays === 0) return 'Today';
-    if (diffDays === 1) return 'Yesterday';
-    if (diffDays < 7) return `${diffDays}d ago`;
+    // Always show actual date with day name for better context
+    if (diffDays === 0) {
+      return date.toLocaleDateString('en-US', { 
+        weekday: 'short',
+        month: 'short', 
+        day: 'numeric'
+      });
+    }
+    
+    if (diffDays < 7) {
+      return date.toLocaleDateString('en-US', { 
+        weekday: 'short',
+        month: 'short', 
+        day: 'numeric'
+      });
+    }
     
     return date.toLocaleDateString('en-US', { 
       month: 'short', 
-      day: 'numeric'
+      day: 'numeric',
+      year: diffDays > 365 ? 'numeric' : undefined
     });
   };
 
@@ -122,39 +144,54 @@ const ActivityHistoryCompact: React.FC<ActivityHistoryCompactProps> = ({ onEditA
               onClick={() => setExpandedCard(isExpanded ? null : activity.id)}
               style={{ cursor: 'pointer' }}
             >
-              <div className="activity-main-info">
-                <span className={`activity-category-badge ${categoryType}`}>
-                  {categoryType === 'strength' ? 'GYM' : 
-                   categoryType === 'cardio' ? 'RUN' : 'FLEX'}
-                </span>
-                <div>
-                  <p className="activity-group-name">{groupName}</p>
-                  <div className="activity-stats-mini">
-                    <span className="activity-stat-mini">{getActivityStats(activity)}</span>
+              {/* First Line: Badge + Date + Actions */}
+              <div className="activity-line-1">
+                <div className="activity-header-info">
+                  <span className={`activity-category-badge ${categoryType}`}>
+                    {categoryType === 'strength' ? 'GYM' : 
+                     categoryType === 'cardio' ? 'RUN' : 'FLEX'}
+                  </span>
+                  <div className="activity-date-prominent">
+                    {formatDateTime(activity.date)}
                   </div>
                 </div>
-              </div>
-              
-              <div className="activity-actions">
-                <div className="activity-date-time">
-                  {formatDateTime(activity.date)}
-                </div>
-                <div className="activity-buttons">
-                  {onEditActivity && (
+                
+                <div className="activity-header-actions">
+                  <div className="activity-buttons">
+                    {onEditActivity && (
+                      <button
+                        className="activity-action-btn edit-btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onEditActivity(activity);
+                        }}
+                        title="Edit activity"
+                      >
+                        Edit
+                      </button>
+                    )}
                     <button
-                      className="activity-edit-btn"
+                      className="activity-action-btn delete-btn"
                       onClick={(e) => {
                         e.stopPropagation();
-                        onEditActivity(activity);
+                        setDeleteConfirm(activity.id);
                       }}
-                      title="Edit activity"
+                      title="Delete activity"
                     >
-                      ✏️
+                      Delete
                     </button>
-                  )}
+                  </div>
                   <span className={`activity-expand-icon ${isExpanded ? 'expanded' : ''}`}>
                     {isExpanded ? '▼' : '▶'}
                   </span>
+                </div>
+              </div>
+
+              {/* Second Line: Exercise Name + Stats */}
+              <div className="activity-line-2">
+                <p className="activity-group-name-full">{groupName}</p>
+                <div className="activity-stats-mini">
+                  <span className="activity-stat-mini">{getActivityStats(activity)}</span>
                 </div>
               </div>
             </div>
@@ -215,12 +252,12 @@ const ActivityHistoryCompact: React.FC<ActivityHistoryCompactProps> = ({ onEditA
                           <div className="exercises-breakdown">
                             <h4>Exercises:</h4>
                             {workout.exercises.map((exercise, index) => (
-                              <div key={exercise.id} className="exercise-detail">
-                                <div className="exercise-name">{exercise.name}</div>
-                                <div className="sets-summary">
+                              <div key={exercise.id} className="exercise-detail-clean">
+                                <div className="exercise-name-clean">{exercise.name}</div>
+                                <div className="sets-summary-clean">
                                   {exercise.sets.map((set, setIndex) => (
-                                    <span key={setIndex} className="set-detail">
-                                      {set.reps}×{set.weight === 0 ? 'BW' : `${set.weight}kg`}
+                                    <span key={setIndex} className="set-badge-clean">
+                                      {set.reps} × {set.weight === 0 ? 'BW' : `${set.weight}kg`}
                                     </span>
                                   ))}
                                 </div>
@@ -249,6 +286,49 @@ const ActivityHistoryCompact: React.FC<ActivityHistoryCompactProps> = ({ onEditA
             <span className="activity-group-name">View all activities</span>
           </div>
           <div className="activity-date-time">→</div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {deleteConfirm && (
+        <div className="delete-modal-overlay">
+          <div className="delete-modal">
+            <div className="delete-modal-header">
+              <h3>Delete Workout</h3>
+            </div>
+            <div className="delete-modal-body">
+              {(() => {
+                const activity = activities.find(a => a.id === deleteConfirm);
+                if (!activity) return null;
+                
+                const categoryType = getCategoryType(activity);
+                const groupName = activity.type === 'run' 
+                  ? 'Running' 
+                  : getExerciseGroup(activity.data as GymWorkout);
+                
+                return (
+                  <>
+                    <p>Delete <strong>{groupName}</strong>?</p>
+                    <p className="delete-warning">This cannot be undone.</p>
+                  </>
+                );
+              })()}
+            </div>
+            <div className="delete-modal-actions">
+              <button
+                className="delete-cancel-btn"
+                onClick={() => setDeleteConfirm(null)}
+              >
+                Cancel
+              </button>
+              <button
+                className="delete-confirm-btn"
+                onClick={() => handleDeleteActivity(deleteConfirm)}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

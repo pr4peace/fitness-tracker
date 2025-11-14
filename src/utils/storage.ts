@@ -40,6 +40,13 @@ export const storage = {
     }
   },
 
+  // Delete activity
+  deleteActivity: (activityId: string): void => {
+    const activities = storage.getActivities();
+    const filteredActivities = activities.filter(a => a.id !== activityId);
+    storage.saveActivities(filteredActivities);
+  },
+
   // Get last workout by category
   getLastWorkout: (category: WorkoutCategory): GymWorkout | null => {
     const activities = storage.getActivities();
