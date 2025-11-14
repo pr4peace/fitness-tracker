@@ -2,9 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { Activity, GymWorkout, RunActivity } from '../types/index';
 import { storage } from '../utils/storage';
 
-const ActivityHistoryCompact: React.FC = () => {
+interface ActivityHistoryCompactProps {
+  onEditActivity?: (activity: Activity) => void;
+}
+
+const ActivityHistoryCompact: React.FC<ActivityHistoryCompactProps> = ({ onEditActivity }) => {
   const [activities, setActivities] = useState<Activity[]>([]);
+  const [filteredActivities, setFilteredActivities] = useState<Activity[]>([]);
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [activityFilter, setActivityFilter] = useState<'all' | 'gym' | 'run'>('all');
+  const [showAllActivities, setShowAllActivities] = useState(false);
 
   useEffect(() => {
     loadActivities();
@@ -131,9 +139,23 @@ const ActivityHistoryCompact: React.FC = () => {
                 <div className="activity-date-time">
                   {formatDateTime(activity.date)}
                 </div>
-                <span className={`activity-expand-icon ${isExpanded ? 'expanded' : ''}`}>
-                  {isExpanded ? '▼' : '▶'}
-                </span>
+                <div className="activity-buttons">
+                  {onEditActivity && (
+                    <button
+                      className="activity-edit-btn"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onEditActivity(activity);
+                      }}
+                      title="Edit activity"
+                    >
+                      ✏️
+                    </button>
+                  )}
+                  <span className={`activity-expand-icon ${isExpanded ? 'expanded' : ''}`}>
+                    {isExpanded ? '▼' : '▶'}
+                  </span>
+                </div>
               </div>
             </div>
 

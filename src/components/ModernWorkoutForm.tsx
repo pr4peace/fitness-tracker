@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { WorkoutCategory, Exercise, Set, GymWorkout, Activity } from '../types/index';
 import { storage, generateId } from '../utils/storage';
+import { WorkoutTemplate } from './WorkoutTemplates';
 import ExerciseSelector from './ExerciseSelector';
 import { ExerciseOption } from '../data/exerciseDatabase';
 
@@ -9,13 +10,19 @@ interface ModernWorkoutFormProps {
   preselectedCategory?: string;
   preselectedExercises?: string[];
   repeatWorkout?: GymWorkout;
+  templateData?: WorkoutTemplate;
+  editingWorkout?: GymWorkout;
+  editingActivityId?: string;
 }
 
 const ModernWorkoutForm: React.FC<ModernWorkoutFormProps> = ({ 
   onWorkoutSaved, 
   preselectedCategory,
   preselectedExercises,
-  repeatWorkout 
+  repeatWorkout,
+  templateData,
+  editingWorkout,
+  editingActivityId
 }) => {
   const [category] = useState<WorkoutCategory>(
     (preselectedCategory as WorkoutCategory) || 'upper-body'
@@ -23,10 +30,23 @@ const ModernWorkoutForm: React.FC<ModernWorkoutFormProps> = ({
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [notes, setNotes] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [validationError, setValidationError] = useState('');
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [workoutStartTime] = useState(new Date());
 
-  // Initialize with repeat workout data if provided
+  // Initialize with editing workout or repeat workout only
   useEffect(() => {
-    if (repeatWorkout) {
+    if (editingWorkout) {
+      // Initialize with existing workout data for editing
+      setExercises(editingWorkout.exercises.map(ex => ({
+        ...ex,
+        id: ex.id || generateId(), // Keep existing IDs if available
+        sets: ex.sets.map(set => ({
+          ...set
+        }))
+      })));
+      setNotes(editingWorkout.notes || '');
+    } else if (repeatWorkout) {
       setExercises(repeatWorkout.exercises.map(ex => ({
         ...ex,
         id: generateId(), // Generate new IDs for the repeated workout
@@ -38,21 +58,12 @@ const ModernWorkoutForm: React.FC<ModernWorkoutFormProps> = ({
         }))
       })));
       setNotes(repeatWorkout.notes || '');
-    } else if (preselectedExercises && preselectedExercises.length > 0) {
-      // Initialize with preselected exercises for new workout
-      const initialExercises = preselectedExercises.slice(0, 4).map(name => ({
-        id: generateId(),
-        name,
-        sets: [{
-          reps: 8,
-          weight: 0,
-          notes: '',
-          coachNotes: ''
-        }]
-      }));
-      setExercises(initialExercises);
+    } else {
+      // Start with empty form for new workouts
+      setExercises([]);
+      setNotes('');
     }
-  }, [repeatWorkout, preselectedExercises]);
+  }, [editingWorkout, repeatWorkout]);
 
   const updateSet = (exerciseId: string, setIndex: number, field: keyof Set, value: number | string) => {
     setExercises(exercises.map(ex => 
@@ -138,26 +149,53 @@ const ModernWorkoutForm: React.FC<ModernWorkoutFormProps> = ({
     setExercises(exercises.filter(ex => ex.id !== exerciseId));
   };
 
-  const toggleSetCompletion = (exerciseId: string, setIndex: number) => {
-    setExercises(exercises.map(ex => 
-      ex.id === exerciseId 
-        ? {
-            ...ex,
-            sets: ex.sets.map((set: Set, index: number) => 
-              index === setIndex 
-                ? { ...set, completed: !set.completed }
-                : set
-            )
-          }
-        : ex
-    ));
+
+  const validateForm = (): string => {
+    if (exercises.length === 0) {
+      return 'Please add at least one exercise to your workout';
+    }
+    
+    // Check for unnamed exercises
+    const unnamedExercises = exercises.filter(ex => ex.name.trim() === '' || ex.name === 'New Exercise');
+    if (unnamedExercises.length > 0) {
+      return 'Please select names for all exercises in your workout';
+    }
+    
+    const validExercises = exercises.filter(ex => ex.name.trim() !== '');
+    if (validExercises.length === 0) {
+      return 'Please select valid exercises for your workout';
+    }
+
+    // Check for exercises without sets
+    const exercisesWithoutSets = validExercises.filter(ex => ex.sets.length === 0);
+    if (exercisesWithoutSets.length > 0) {
+      return 'Please add at least one set to each exercise';
+    }
+
+    // Check for exercises with invalid sets (zero reps)
+    const exercisesWithInvalidSets = validExercises.filter(ex => 
+      ex.sets.some(set => set.reps <= 0)
+    );
+    if (exercisesWithInvalidSets.length > 0) {
+      return 'Please enter valid rep counts for all sets (must be greater than 0)';
+    }
+
+    return '';
+  };
+
+  const calculateDuration = (): number => {
+    const now = new Date();
+    const durationMs = now.getTime() - workoutStartTime.getTime();
+    return Math.round(durationMs / (1000 * 60)); // Duration in minutes
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setValidationError('');
     
-    if (exercises.length === 0) {
-      alert('Please add at least one exercise');
+    const error = validateForm();
+    if (error) {
+      setValidationError(error);
       return;
     }
 
@@ -169,7 +207,7 @@ const ModernWorkoutForm: React.FC<ModernWorkoutFormProps> = ({
       category,
       exercises: exercises.filter(ex => ex.name.trim() !== '' && ex.sets.length > 0),
       notes,
-      duration: 45 // Default duration, could be calculated
+      duration: calculateDuration()
     };
 
     // Create activity with proper structure
@@ -180,18 +218,30 @@ const ModernWorkoutForm: React.FC<ModernWorkoutFormProps> = ({
       data: workout
     };
 
-    storage.addActivity(activity);
-    
-    // Small delay to show loading state
-    setTimeout(() => {
+    try {
+      if (editingActivityId) {
+        // Update existing activity
+        storage.updateActivity(editingActivityId, activity);
+      } else {
+        // Add new activity
+        storage.addActivity(activity);
+      }
+      
+      // Show success state
+      setShowSuccess(true);
+      
+      // Complete after showing success
+      setTimeout(() => {
+        setIsLoading(false);
+        onWorkoutSaved();
+      }, 800);
+    } catch (error) {
       setIsLoading(false);
-      onWorkoutSaved();
-    }, 500);
+      setValidationError('Failed to save workout. Please try again.');
+    }
   };
 
   const getTotalSets = () => exercises.reduce((total, ex) => total + ex.sets.length, 0);
-  const getCompletedSets = () => exercises.reduce((total, ex) => 
-    total + ex.sets.filter(set => set.completed).length, 0);
 
   return (
     <form onSubmit={handleSubmit} className="modern-workout-form">
@@ -203,23 +253,14 @@ const ModernWorkoutForm: React.FC<ModernWorkoutFormProps> = ({
             <span className="stat-label">Exercises</span>
           </div>
           <div className="progress-stat">
-            <span className="stat-number">{getCompletedSets()}/{getTotalSets()}</span>
-            <span className="stat-label">Sets Done</span>
+            <span className="stat-number">{getTotalSets()}</span>
+            <span className="stat-label">Total Sets</span>
           </div>
           <div className="progress-stat">
-            <span className="stat-number">~45</span>
+            <span className="stat-number">{calculateDuration()}</span>
             <span className="stat-label">Minutes</span>
           </div>
         </div>
-        
-        {getTotalSets() > 0 && (
-          <div className="progress-bar">
-            <div 
-              className="progress-fill" 
-              style={{ width: `${(getCompletedSets() / getTotalSets()) * 100}%` }}
-            />
-          </div>
-        )}
       </div>
 
       {/* Exercises list */}
@@ -233,7 +274,7 @@ const ModernWorkoutForm: React.FC<ModernWorkoutFormProps> = ({
                 onChange={(name, exerciseData) => updateExerciseName(exercise.id, name, exerciseData)}
                 category={category}
                 placeholder="Select exercise"
-                allowCustomInput={false}
+                allowCustomInput={true}
               />
               <button
                 type="button"
@@ -249,7 +290,7 @@ const ModernWorkoutForm: React.FC<ModernWorkoutFormProps> = ({
               {exercise.sets.map((set, setIndex) => (
                 <div 
                   key={setIndex} 
-                  className={`set-row ${set.completed ? 'completed' : ''}`}
+                  className="set-row"
                 >
                   <div className="set-number">{setIndex + 1}</div>
                   
@@ -277,15 +318,6 @@ const ModernWorkoutForm: React.FC<ModernWorkoutFormProps> = ({
                     />
                     <label className="input-label">{set.weight === 0 ? 'BW' : 'kg'}</label>
                   </div>
-
-                  <button
-                    type="button"
-                    onClick={() => toggleSetCompletion(exercise.id, setIndex)}
-                    className={`completion-btn ${set.completed ? 'completed' : ''}`}
-                    title="Mark as completed"
-                  >
-                    {set.completed ? '✓' : '○'}
-                  </button>
 
                   <button
                     type="button"
@@ -333,13 +365,33 @@ const ModernWorkoutForm: React.FC<ModernWorkoutFormProps> = ({
         />
       </div>
 
+      {/* Validation error display */}
+      {validationError && (
+        <div className="error-message glass-card">
+          <span className="error-icon">⚠️</span>
+          <span className="error-text">{validationError}</span>
+        </div>
+      )}
+
       {/* Save button */}
       <button
         type="submit"
         disabled={isLoading || exercises.length === 0}
-        className="save-workout-btn btn-primary"
+        className={`save-workout-btn btn-primary ${showSuccess ? 'success' : ''}`}
       >
-        {isLoading ? 'Saving...' : 'Complete Workout'}
+        {showSuccess ? (
+          <span className="success-content">
+            <span className="success-icon">✓</span>
+            <span>Workout Saved!</span>
+          </span>
+        ) : isLoading ? (
+          <span className="loading-content">
+            <span className="loading-spinner"></span>
+            <span>Saving...</span>
+          </span>
+        ) : (
+          'Complete Workout'
+        )}
       </button>
     </form>
   );

@@ -41,6 +41,7 @@ export type WorkoutCategory =
   | 'lower-body' 
   | 'core'
   | 'cardio'
+  | 'circuit'
   | 'full-body'
   | 'other';
 

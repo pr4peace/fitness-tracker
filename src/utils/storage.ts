@@ -30,6 +30,16 @@ export const storage = {
     storage.saveActivities(activities);
   },
 
+  // Update existing activity
+  updateActivity: (activityId: string, updatedActivity: Activity): void => {
+    const activities = storage.getActivities();
+    const index = activities.findIndex(a => a.id === activityId);
+    if (index !== -1) {
+      activities[index] = { ...updatedActivity, id: activityId };
+      storage.saveActivities(activities);
+    }
+  },
+
   // Get last workout by category
   getLastWorkout: (category: WorkoutCategory): GymWorkout | null => {
     const activities = storage.getActivities();
