@@ -48,33 +48,32 @@ const WorkoutOptions: React.FC<WorkoutOptionsProps> = ({
 
       {lastWorkout && (
         <div className="last-workout-preview glass-card">
-          <h3 className="preview-title">Last Workout</h3>
-          <div className="workout-preview-info">
-            <p className="workout-date">{formatDate(lastWorkout.date)}</p>
-            <p className="workout-summary">
-              {lastWorkout.exercises.length} exercises • {lastWorkout.duration}min
-            </p>
+          <div className="preview-header">
+            <h3 className="preview-title">Last Workout</h3>
+            <span className="workout-date">{formatDate(lastWorkout.date)} • {lastWorkout.duration}min</span>
           </div>
           
-          <div className="exercises-preview">
-            {lastWorkout.exercises.slice(0, 3).map((exercise, index) => (
-              <div key={index} className="exercise-preview-item">
-                <span className="exercise-name">{exercise.name}</span>
-                <span className="exercise-sets">{exercise.sets.length} sets</span>
+          <div className="dense-exercises-list">
+            {lastWorkout.exercises.map((exercise, index) => (
+              <div key={index} className="dense-exercise-row">
+                <div className="exercise-name-dense">{exercise.name}</div>
+                <div className="sets-summary">
+                  {exercise.sets.map((set, setIndex) => (
+                    <span key={setIndex} className="set-badge">
+                      {set.reps}x{set.weight === 0 ? 'BW' : `${set.weight}kg`}
+                    </span>
+                  ))}
+                </div>
               </div>
             ))}
-            {lastWorkout.exercises.length > 3 && (
-              <div className="exercise-preview-item more">
-                <span className="exercise-name">+{lastWorkout.exercises.length - 3} more</span>
-              </div>
-            )}
           </div>
 
           <button 
             className="repeat-workout-btn btn-primary"
             onClick={() => onRepeatWorkout(lastWorkout)}
           >
-            Repeat This Workout
+            <span className="repeat-icon">↻</span>
+            <span>Repeat This Workout</span>
           </button>
         </div>
       )}

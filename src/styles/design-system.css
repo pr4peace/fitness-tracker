@@ -1607,6 +1607,41 @@
   font-size: var(--text-sm);
 }
 
+/* Add first exercise button */
+.add-first-exercise {
+  padding: var(--space-6);
+  text-align: center;
+  margin-bottom: var(--space-4);
+}
+
+.add-first-exercise-btn {
+  background: linear-gradient(135deg, rgba(139, 69, 19, 0.1), rgba(218, 165, 32, 0.1));
+  border: 2px dashed rgba(139, 69, 19, 0.3);
+  color: var(--text-primary);
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 100%;
+  cursor: pointer;
+  transition: all var(--transition-smooth);
+}
+
+.add-first-exercise-btn:hover {
+  background: linear-gradient(135deg, rgba(139, 69, 19, 0.15), rgba(218, 165, 32, 0.15));
+  border-color: rgba(139, 69, 19, 0.5);
+  transform: translateY(-2px);
+}
+
+.add-first-exercise-btn .add-icon {
+  font-size: var(--text-xl);
+  font-weight: bold;
+}
+
 /* Add exercise button */
 .add-exercise-btn {
   display: flex;
@@ -2414,10 +2449,17 @@
   padding: var(--space-5);
 }
 
+.preview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-3);
+}
+
 .preview-title {
   font-size: var(--text-lg);
   font-weight: var(--font-weight-semibold);
-  margin: 0 0 var(--space-3) 0;
+  margin: 0;
   color: var(--text-primary);
 }
 
@@ -2459,6 +2501,60 @@
 .exercise-preview-item.more {
   color: #6b7280;
   font-style: italic;
+}
+
+/* Dense exercise list for last workout preview */
+.dense-exercises-list {
+  margin-bottom: var(--space-4);
+}
+
+.dense-exercise-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dense-exercise-row:last-child {
+  border-bottom: none;
+}
+
+.exercise-name-dense {
+  font-weight: 500;
+  color: var(--text-primary);
+  flex: 1;
+  margin-right: var(--space-3);
+}
+
+.sets-summary {
+  display: flex;
+  gap: var(--space-1);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.set-badge {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.repeat-workout-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.repeat-icon {
+  font-size: var(--text-lg);
+  font-weight: bold;
 }
 
 .exercise-name {

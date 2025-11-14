@@ -17,6 +17,7 @@ function App() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [editingActivity, setEditingActivity] = useState<Activity | undefined>();
   const [workoutMode, setWorkoutMode] = useState<'new' | 'repeat' | 'edit'>('new');
+  const [showForm, setShowForm] = useState(false);
   const [repeatWorkout, setRepeatWorkout] = useState<GymWorkout | null>(null);
 
   // Initialize clean deployment data
@@ -36,11 +37,13 @@ function App() {
   const handleRepeatWorkout = (workout: GymWorkout) => {
     setRepeatWorkout(workout);
     setWorkoutMode('repeat');
+    setShowForm(true);
   };
 
   const handleStartNew = () => {
     setRepeatWorkout(null);
     setWorkoutMode('new');
+    setShowForm(true);
   };
 
   const handleBackToCategories = () => {
@@ -48,6 +51,7 @@ function App() {
     setRepeatWorkout(null);
     setWorkoutMode('new');
     setEditingActivity(undefined);
+    setShowForm(false);
   };
 
   const handleEditActivity = (activity: Activity) => {
@@ -60,6 +64,7 @@ function App() {
     setSelectedCategory(null);
     setEditingActivity(undefined);
     setWorkoutMode('new');
+    setShowForm(false);
   };
 
   return (
@@ -112,7 +117,7 @@ function App() {
               )}
 
               {/* Step 2: Workout Options (Repeat or New) */}
-              {selectedCategory && !editingActivity && workoutMode === 'new' && !repeatWorkout && (
+              {selectedCategory && !editingActivity && !showForm && (
                 <WorkoutOptions
                   category={selectedCategory as WorkoutCategory}
                   onRepeatWorkout={handleRepeatWorkout}
@@ -141,11 +146,8 @@ function App() {
                 </div>
               )}
 
-              {/* Step 3: Workout Form - Show when either repeating OR when starting new (after options) */}
-              {selectedCategory && !editingActivity && (
-                (workoutMode === 'repeat' && repeatWorkout) || 
-                (workoutMode === 'new' && repeatWorkout === null)
-              ) && (
+              {/* Step 3: Workout Form - Show only when explicitly starting new or repeating */}
+              {selectedCategory && !editingActivity && showForm && (
                 <div className="form-card glass-card">
                   <div className="workout-flow-header">
                     <button onClick={handleBackToCategories} className="back-button">← Back</button>

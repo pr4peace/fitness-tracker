@@ -108,15 +108,12 @@ const ModernWorkoutForm: React.FC<ModernWorkoutFormProps> = ({
   };
 
   const addExercise = () => {
+    // Don't create exercise immediately, just add placeholder
+    // Exercise creation will happen after selection
     const newExercise: Exercise = {
       id: generateId(),
-      name: 'New Exercise',
-      sets: [{
-        reps: 8,
-        weight: 0,
-        notes: '',
-        coachNotes: ''
-      }]
+      name: '',
+      sets: []
     };
     setExercises([...exercises, newExercise]);
   };
@@ -126,8 +123,20 @@ const ModernWorkoutForm: React.FC<ModernWorkoutFormProps> = ({
       if (ex.id === exerciseId) {
         const updatedExercise = { ...ex, name };
         
-        // If we have exercise data from database, apply defaults
-        if (exerciseData && exerciseData.defaultSets && exerciseData.defaultReps) {
+        // Try to find this exercise in last workout of same category for smart pre-filling
+        const lastWorkout = storage.getLastWorkout(category);
+        const lastExerciseData = lastWorkout?.exercises.find(e => e.name === name);
+        
+        if (lastExerciseData) {
+          // Pre-fill based on last workout data
+          updatedExercise.sets = lastExerciseData.sets.map(set => ({
+            reps: set.reps,
+            weight: set.weight,
+            notes: '',
+            coachNotes: ''
+          }));
+        } else if (exerciseData && exerciseData.defaultSets && exerciseData.defaultReps) {
+          // Fall back to database defaults
           const defaultSet = {
             reps: exerciseData.defaultReps,
             weight: exerciseData.defaultWeight || 0,
@@ -135,8 +144,15 @@ const ModernWorkoutForm: React.FC<ModernWorkoutFormProps> = ({
             coachNotes: ''
           };
           
-          // Create the right number of sets with default values
           updatedExercise.sets = Array(exerciseData.defaultSets).fill(null).map(() => ({ ...defaultSet }));
+        } else {
+          // Basic fallback
+          updatedExercise.sets = [{
+            reps: 8,
+            weight: 0,
+            notes: '',
+            coachNotes: ''
+          }];
         }
         
         return updatedExercise;
@@ -263,9 +279,24 @@ const ModernWorkoutForm: React.FC<ModernWorkoutFormProps> = ({
         </div>
       </div>
 
-      {/* Exercises list */}
-      <div className="exercises-list">
-        {exercises.map((exercise, exerciseIndex) => (
+      {/* Add Exercise Button - Show when no exercises */}
+      {exercises.length === 0 && (
+        <div className="add-first-exercise glass-card">
+          <button
+            type="button"
+            onClick={addExercise}
+            className="add-first-exercise-btn"
+          >
+            <span className="add-icon">+</span>
+            <span>Add Exercise</span>
+          </button>
+        </div>
+      )}
+
+      {/* Exercises list - Show when exercises exist */}
+      {exercises.length > 0 && (
+        <div className="exercises-list">
+          {exercises.map((exercise, exerciseIndex) => (
           <div key={exercise.id} className="exercise-card glass-card">
             <div className="exercise-header">
               <div className="exercise-number">{exerciseIndex + 1}</div>
@@ -340,17 +371,18 @@ const ModernWorkoutForm: React.FC<ModernWorkoutFormProps> = ({
             </button>
           </div>
         ))}
-      </div>
-
-      {/* Add exercise button */}
-      <button
-        type="button"
-        onClick={addExercise}
-        className="add-exercise-btn glass-card"
-      >
-        <span className="add-icon">+</span>
-        <span>Add Exercise</span>
-      </button>
+        
+        {/* Add another exercise button */}
+        <button
+          type="button"
+          onClick={addExercise}
+          className="add-exercise-btn glass-card"
+        >
+          <span className="add-icon">+</span>
+          <span>Add Another Exercise</span>
+        </button>
+        </div>
+      )}
 
       {/* Notes */}
       <div className="workout-notes glass-card">
