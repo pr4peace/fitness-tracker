@@ -8,6 +8,7 @@ import WorkoutStats from './components/WorkoutStats';
 import WorkoutOverview from './components/WorkoutOverview';
 import CategoryGrid from './components/CategoryGrid';
 import WorkoutOptions from './components/WorkoutOptions';
+import StatsCard from './components/StatsCard';
 import { storage } from './utils/storage';
 import { GymWorkout, Activity, WorkoutCategory } from './types/index';
 
@@ -99,10 +100,8 @@ function App() {
         <main className="modern-main">
           {currentView === 'home' && (
             <div className="dashboard animate-fade-in animate-delay-2">
-              {/* Quick stats section */}
-              <div className="quick-stats glass-card">
-                <WorkoutStats key={refreshTrigger} />
-              </div>
+              {/* Enhanced stats section */}
+              <StatsCard key={refreshTrigger} />
 
               {/* Activity history */}
               <div className="activity-section glass-card">

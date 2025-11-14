@@ -11,21 +11,74 @@ const ActivityHistoryCompact: React.FC<ActivityHistoryCompactProps> = ({ onEditA
   const [filteredActivities, setFilteredActivities] = useState<Activity[]>([]);
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [activityFilter, setActivityFilter] = useState<'all' | 'gym' | 'run'>('all');
-  const [showAllActivities, setShowAllActivities] = useState(false);
+  const [activeFilter, setActiveFilter] = useState<'all' | 'gym' | 'run' | 'week' | 'month'>('all');
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
+  const [showSearchResults, setShowSearchResults] = useState(false);
+  const [showSearchDropdown, setShowSearchDropdown] = useState(false);
 
   useEffect(() => {
     loadActivities();
-  }, []);
+  }, [searchQuery, activeFilter]);
+
+  // Filter activities based on search and filters
+  useEffect(() => {
+    let filtered = activities;
+
+    // Apply time-based or type filters
+    const now = new Date();
+    switch (activeFilter) {
+      case 'week':
+        const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+        filtered = filtered.filter(activity => new Date(activity.date) >= weekAgo);
+        break;
+      case 'month':
+        const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+        filtered = filtered.filter(activity => new Date(activity.date) >= monthAgo);
+        break;
+      case 'gym':
+      case 'run':
+        filtered = filtered.filter(activity => activity.type === activeFilter);
+        break;
+      default:
+        // 'all' - no filtering
+        break;
+    }
+
+    // Apply search query
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(activity => {
+        if (activity.type === 'run') {
+          const run = activity.data as RunActivity;
+          return (
+            run.route?.toLowerCase().includes(query) ||
+            run.notes?.toLowerCase().includes(query)
+          );
+        } else {
+          const workout = activity.data as GymWorkout;
+          return (
+            workout.category.toLowerCase().includes(query) ||
+            workout.exercises.some(ex => ex.name.toLowerCase().includes(query)) ||
+            workout.notes?.toLowerCase().includes(query)
+          );
+        }
+      });
+    }
+
+    setFilteredActivities(filtered);
+    setShowSearchResults(searchQuery.trim().length > 0 || activeFilter !== 'all');
+  }, [activities, searchQuery, activeFilter]);
 
   const loadActivities = () => {
     const allActivities = storage.getActivities();
-    // Show only last 8 activities for compact view
-    setActivities(allActivities
-      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-      .slice(0, 8)
-    );
+    const sortedActivities = allActivities.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    
+    // Show only last 8 activities for compact view, or all if filtering is active
+    const activitiesToShow = showSearchResults 
+      ? sortedActivities 
+      : sortedActivities.slice(0, 8);
+    
+    setActivities(activitiesToShow);
   };
 
   const handleDeleteActivity = (activityId: string) => {
@@ -33,6 +86,42 @@ const ActivityHistoryCompact: React.FC<ActivityHistoryCompactProps> = ({ onEditA
     loadActivities(); // Refresh the list
     setDeleteConfirm(null);
     setExpandedCard(null);
+  };
+
+  const getSearchSuggestions = () => {
+    const allActivities = storage.getActivities();
+    const exerciseNames = new Set<string>();
+    
+    allActivities.forEach(activity => {
+      if (activity.type === 'gym') {
+        const workout = activity.data as GymWorkout;
+        workout.exercises.forEach(ex => exerciseNames.add(ex.name));
+      }
+    });
+
+    return Array.from(exerciseNames).slice(0, 5);
+  };
+
+  const getFilterOptions = () => [
+    { key: 'all', label: 'All Activities', icon: '📊' },
+    { key: 'gym', label: 'Gym Workouts', icon: '💪' },
+    { key: 'run', label: 'Running', icon: '🏃' },
+    { key: 'week', label: 'This Week', icon: '📅' },
+    { key: 'month', label: 'This Month', icon: '🗓️' },
+  ];
+
+  const handleFilterSelect = (filterKey: string) => {
+    setActiveFilter(filterKey as any);
+    setShowSearchDropdown(false);
+  };
+
+  const handleSearchFocus = () => {
+    setShowSearchDropdown(true);
+  };
+
+  const handleSearchBlur = () => {
+    // Delay to allow clicking on dropdown items
+    setTimeout(() => setShowSearchDropdown(false), 150);
   };
 
   const getExerciseGroup = (workout: GymWorkout): string => {
@@ -127,9 +216,98 @@ const ActivityHistoryCompact: React.FC<ActivityHistoryCompactProps> = ({ onEditA
     );
   }
 
+  const displayActivities = showSearchResults ? filteredActivities : activities;
+
   return (
     <div className="activity-history-compact">
-      {activities.map((activity) => {
+      {/* Compact Unified Search */}
+      <div className="compact-search-container">
+        <div className="search-wrapper">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onFocus={handleSearchFocus}
+            onBlur={handleSearchBlur}
+            placeholder="Search workouts or tap to filter..."
+            className="compact-search-input"
+          />
+          
+          {/* Active filter indicator */}
+          {activeFilter !== 'all' && (
+            <div className="active-filter-indicator">
+              {getFilterOptions().find(f => f.key === activeFilter)?.icon}
+            </div>
+          )}
+          
+          {/* Clear button */}
+          {(searchQuery || activeFilter !== 'all') && (
+            <button
+              className="clear-all-btn"
+              onClick={() => {
+                setSearchQuery('');
+                setActiveFilter('all');
+              }}
+              title="Clear all"
+            >
+              ✕
+            </button>
+          )}
+        </div>
+        
+        {/* Unified Dropdown */}
+        {showSearchDropdown && (
+          <div className="search-dropdown">
+            {/* Quick Filters Section */}
+            <div className="dropdown-section">
+              <div className="section-title">Quick Filters</div>
+              <div className="filter-grid">
+                {getFilterOptions().map(filter => (
+                  <button
+                    key={filter.key}
+                    className={`dropdown-filter ${activeFilter === filter.key ? 'active' : ''}`}
+                    onClick={() => handleFilterSelect(filter.key)}
+                  >
+                    <span className="filter-icon">{filter.icon}</span>
+                    <span className="filter-text">{filter.label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+            
+            {/* Search Suggestions Section */}
+            {getSearchSuggestions().length > 0 && (
+              <div className="dropdown-section">
+                <div className="section-title">Recent Exercises</div>
+                <div className="suggestions-list">
+                  {getSearchSuggestions().map(suggestion => (
+                    <button
+                      key={suggestion}
+                      className="suggestion-item"
+                      onClick={() => {
+                        setSearchQuery(suggestion);
+                        setShowSearchDropdown(false);
+                      }}
+                    >
+                      <span className="suggestion-icon">🔍</span>
+                      <span className="suggestion-text">{suggestion}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+        
+        {/* Results count - more compact */}
+        {showSearchResults && (
+          <div className="compact-results-info">
+            {displayActivities.length} of {storage.getActivities().length}
+          </div>
+        )}
+      </div>
+
+      {displayActivities.map((activity) => {
         const categoryType = getCategoryType(activity);
         const groupName = activity.type === 'run' 
           ? 'Running' 
