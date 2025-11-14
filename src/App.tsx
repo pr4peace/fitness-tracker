@@ -67,6 +67,12 @@ function App() {
     setShowForm(false);
   };
 
+  const handleBackToOptions = () => {
+    setShowForm(false);
+    setRepeatWorkout(null);
+    setWorkoutMode('new');
+  };
+
   return (
     <div className="app-viewport">
       {/* Premium mobile app background */}
@@ -150,7 +156,7 @@ function App() {
               {selectedCategory && !editingActivity && showForm && (
                 <div className="form-card glass-card">
                   <div className="workout-flow-header">
-                    <button onClick={handleBackToCategories} className="back-button">← Back</button>
+                    <button onClick={handleBackToOptions} className="back-button">← Back</button>
                     <h2 className="text-subheading">
                       {workoutMode === 'repeat' ? 'Repeat Workout' : 'New Workout'}
                     </h2>

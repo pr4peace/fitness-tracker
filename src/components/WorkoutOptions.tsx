@@ -47,34 +47,35 @@ const WorkoutOptions: React.FC<WorkoutOptionsProps> = ({
       </div>
 
       {lastWorkout && (
-        <div className="last-workout-preview glass-card">
-          <div className="preview-header">
-            <h3 className="preview-title">Last Workout</h3>
-            <span className="workout-date">{formatDate(lastWorkout.date)} • {lastWorkout.duration}min</span>
+        <div className="last-workout-compact glass-card">
+          <div className="compact-header">
+            <div className="compact-info">
+              <span className="compact-title">Last Workout</span>
+              <span className="compact-date">{formatDate(lastWorkout.date)} • {lastWorkout.duration}min</span>
+            </div>
+            <button 
+              className="repeat-round-btn"
+              onClick={() => onRepeatWorkout(lastWorkout)}
+              title="Repeat this workout"
+            >
+              ↻
+            </button>
           </div>
           
-          <div className="dense-exercises-list">
+          <div className="compact-exercises">
             {lastWorkout.exercises.map((exercise, index) => (
-              <div key={index} className="dense-exercise-row">
-                <div className="exercise-name-dense">{exercise.name}</div>
-                <div className="sets-summary">
+              <div key={index} className="compact-exercise">
+                <span className="compact-name">{exercise.name}</span>
+                <div className="compact-sets">
                   {exercise.sets.map((set, setIndex) => (
-                    <span key={setIndex} className="set-badge">
-                      {set.reps}x{set.weight === 0 ? 'BW' : `${set.weight}kg`}
+                    <span key={setIndex} className="compact-badge">
+                      {set.reps}×{set.weight === 0 ? 'BW' : set.weight}
                     </span>
                   ))}
                 </div>
               </div>
             ))}
           </div>
-
-          <button 
-            className="repeat-workout-btn btn-primary"
-            onClick={() => onRepeatWorkout(lastWorkout)}
-          >
-            <span className="repeat-icon">↻</span>
-            <span>Repeat This Workout</span>
-          </button>
         </div>
       )}
 

@@ -210,6 +210,110 @@ export const EXERCISE_DATABASE: ExerciseOption[] = [
     defaultSets: 3,
     defaultReps: 12,
     defaultWeight: 50
+  },
+  {
+    id: 'leg-extension',
+    name: 'Leg Extension',
+    category: 'legs',
+    muscle: 'primary',
+    equipment: 'machine',
+    defaultSets: 3,
+    defaultReps: 12,
+    defaultWeight: 25
+  },
+  {
+    id: 'leg-curl',
+    name: 'Leg Curl',
+    category: 'legs',
+    muscle: 'primary',
+    equipment: 'machine',
+    defaultSets: 3,
+    defaultReps: 12,
+    defaultWeight: 20
+  },
+
+  // Core Exercises
+  {
+    id: 'plank',
+    name: 'Plank',
+    category: 'core',
+    muscle: 'primary',
+    equipment: 'bodyweight',
+    defaultSets: 3,
+    defaultReps: 30,
+    defaultWeight: 0
+  },
+  {
+    id: 'crunches',
+    name: 'Crunches',
+    category: 'core',
+    muscle: 'primary',
+    equipment: 'bodyweight',
+    defaultSets: 3,
+    defaultReps: 20,
+    defaultWeight: 0
+  },
+  {
+    id: 'russian-twists',
+    name: 'Russian Twists',
+    category: 'core',
+    muscle: 'primary',
+    equipment: 'bodyweight',
+    defaultSets: 3,
+    defaultReps: 20,
+    defaultWeight: 0
+  },
+  {
+    id: 'mountain-climbers',
+    name: 'Mountain Climbers',
+    category: 'core',
+    muscle: 'primary',
+    equipment: 'bodyweight',
+    defaultSets: 3,
+    defaultReps: 30,
+    defaultWeight: 0
+  },
+
+  // Cardio Exercises
+  {
+    id: 'treadmill-run',
+    name: 'Treadmill Run',
+    category: 'cardio',
+    muscle: 'primary',
+    equipment: 'machine',
+    defaultSets: 1,
+    defaultReps: 20,
+    defaultWeight: 0
+  },
+  {
+    id: 'cycling',
+    name: 'Cycling',
+    category: 'cardio',
+    muscle: 'primary',
+    equipment: 'machine',
+    defaultSets: 1,
+    defaultReps: 30,
+    defaultWeight: 0
+  },
+  {
+    id: 'rowing',
+    name: 'Rowing',
+    category: 'cardio',
+    muscle: 'primary',
+    equipment: 'machine',
+    defaultSets: 1,
+    defaultReps: 15,
+    defaultWeight: 0
+  },
+  {
+    id: 'burpees',
+    name: 'Burpees',
+    category: 'cardio',
+    muscle: 'primary',
+    equipment: 'bodyweight',
+    defaultSets: 3,
+    defaultReps: 10,
+    defaultWeight: 0
   }
 ];
 
@@ -218,6 +322,7 @@ export const getExercisesByCategory = (category: string): ExerciseOption[] => {
     'upper-body': ['chest', 'shoulders', 'triceps', 'back', 'biceps'],
     'lower-body': ['legs'],
     'cardio': ['cardio'],
+    'circuit': ['chest', 'shoulders', 'triceps', 'back', 'biceps', 'legs', 'core', 'cardio'],
     'full-body': ['chest', 'shoulders', 'triceps', 'back', 'biceps', 'legs', 'core']
   };
 

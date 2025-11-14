@@ -107,6 +107,21 @@ const ModernWorkoutForm: React.FC<ModernWorkoutFormProps> = ({
     ));
   };
 
+  const toggleSetCompletion = (exerciseId: string, setIndex: number) => {
+    setExercises(exercises.map(ex => 
+      ex.id === exerciseId 
+        ? {
+            ...ex,
+            sets: ex.sets.map((set: Set, index: number) => 
+              index === setIndex 
+                ? { ...set, completed: !set.completed }
+                : set
+            )
+          }
+        : ex
+    ));
+  };
+
   const addExercise = () => {
     // Don't create exercise immediately, just add placeholder
     // Exercise creation will happen after selection
@@ -259,8 +274,31 @@ const ModernWorkoutForm: React.FC<ModernWorkoutFormProps> = ({
 
   const getTotalSets = () => exercises.reduce((total, ex) => total + ex.sets.length, 0);
 
+  const getCategoryName = (cat: WorkoutCategory) => {
+    const names: { [key: string]: string } = {
+      'upper-body': 'Upper Body',
+      'lower-body': 'Lower Body',
+      'cardio': 'Cardio',
+      'circuit': 'Circuit',
+      'full-body': 'Full Body'
+    };
+    return names[cat] || cat;
+  };
+
   return (
     <form onSubmit={handleSubmit} className="modern-workout-form">
+      {/* Category indicator */}
+      <div className="workout-category-indicator glass-card">
+        <span className="category-label">{getCategoryName(category)} Workout</span>
+        <span className="category-emoji">
+          {category === 'upper-body' && '💪'}
+          {category === 'lower-body' && '🦵'}
+          {category === 'cardio' && '❤️'}
+          {category === 'circuit' && '🔥'}
+          {category === 'full-body' && '🏋️'}
+        </span>
+      </div>
+
       {/* Progress indicator */}
       <div className="workout-progress glass-card">
         <div className="progress-stats">
@@ -305,7 +343,7 @@ const ModernWorkoutForm: React.FC<ModernWorkoutFormProps> = ({
                 onChange={(name, exerciseData) => updateExerciseName(exercise.id, name, exerciseData)}
                 category={category}
                 placeholder="Select exercise"
-                allowCustomInput={true}
+                allowCustomInput={false}
               />
               <button
                 type="button"
@@ -349,6 +387,15 @@ const ModernWorkoutForm: React.FC<ModernWorkoutFormProps> = ({
                     />
                     <label className="input-label">{set.weight === 0 ? 'BW' : 'kg'}</label>
                   </div>
+
+                  <button
+                    type="button"
+                    onClick={() => toggleSetCompletion(exercise.id, setIndex)}
+                    className={`set-completion-btn ${set.completed ? 'completed' : ''}`}
+                    title={set.completed ? 'Mark as incomplete' : 'Mark as completed'}
+                  >
+                    {set.completed ? '✓' : '○'}
+                  </button>
 
                   <button
                     type="button"
@@ -422,7 +469,7 @@ const ModernWorkoutForm: React.FC<ModernWorkoutFormProps> = ({
             <span>Saving...</span>
           </span>
         ) : (
-          'Complete Workout'
+          'End Workout'
         )}
       </button>
     </form>

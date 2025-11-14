@@ -31,9 +31,17 @@ const ExerciseSelector: React.FC<ExerciseSelectorProps> = ({
     let exercises: ExerciseOption[] = [];
     
     if (searchTerm.trim()) {
+      // When searching, show all matching exercises
       exercises = searchExercises(searchTerm);
     } else if (category) {
-      exercises = getExercisesByCategory(category);
+      // When no search term, show categorized exercises
+      const relevantExercises = getExercisesByCategory(category);
+      const otherExercises = EXERCISE_DATABASE.filter(ex => 
+        !relevantExercises.some(rel => rel.id === ex.id)
+      );
+      
+      // Combine: relevant exercises first, then others
+      exercises = [...relevantExercises, ...otherExercises];
     } else {
       exercises = EXERCISE_DATABASE.slice(0, 10); // Show first 10 as default
     }
@@ -41,6 +49,29 @@ const ExerciseSelector: React.FC<ExerciseSelectorProps> = ({
     setFilteredExercises(exercises);
     setHighlightedIndex(-1);
   }, [searchTerm, category]);
+
+  // Helper function to get category display name
+  const getCategoryDisplayName = (cat: string) => {
+    const names: { [key: string]: string } = {
+      'upper-body': 'Upper Body',
+      'lower-body': 'Lower Body',
+      'cardio': 'Cardio',
+      'circuit': 'Circuit',
+      'full-body': 'Full Body'
+    };
+    return names[cat] || cat;
+  };
+
+  // Helper function to check if we should show section headers
+  const shouldShowSections = () => {
+    return !searchTerm.trim() && category;
+  };
+
+  // Helper function to get the number of relevant exercises
+  const getRelevantExercisesCount = () => {
+    if (!category) return 0;
+    return getExercisesByCategory(category).length;
+  };
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -231,33 +262,55 @@ const ExerciseSelector: React.FC<ExerciseSelectorProps> = ({
       
       {isOpen && filteredExercises.length > 0 && (
         <div className="exercise-dropdown">
-          {filteredExercises.map((exercise, index) => (
-            <div
-              key={exercise.id}
-              className={`exercise-option ${index === highlightedIndex ? 'highlighted' : ''}`}
-              onClick={() => handleExerciseSelect(exercise)}
-              onMouseEnter={() => setHighlightedIndex(index)}
-            >
-              <div className="exercise-option-main">
-                <span className="exercise-icon">
-                  {getCategoryIcon(exercise.category)}
-                </span>
-                <span className="exercise-name">{exercise.name}</span>
-                {getEquipmentBadge(exercise.equipment)}
-              </div>
-              <div className="exercise-option-details">
-                {exercise.defaultSets && exercise.defaultReps && (
-                  <span className="exercise-defaults">
-                    {exercise.defaultSets} × {exercise.defaultReps}
-                    {exercise.defaultWeight && exercise.defaultWeight > 0 
-                      ? ` @ ${exercise.defaultWeight}kg` 
-                      : ''
-                    }
-                  </span>
+          {filteredExercises.map((exercise, index) => {
+            const showSections = shouldShowSections();
+            const relevantCount = getRelevantExercisesCount();
+            const isFirstRelevant = showSections && index === 0;
+            const isFirstOther = showSections && index === relevantCount;
+            
+            return (
+              <React.Fragment key={exercise.id}>
+                {/* Section header for relevant exercises */}
+                {isFirstRelevant && (
+                  <div className="exercise-section-header">
+                    {getCategoryDisplayName(category!)} Exercises
+                  </div>
                 )}
-              </div>
-            </div>
-          ))}
+                
+                {/* Section header for other exercises */}
+                {isFirstOther && relevantCount > 0 && (
+                  <div className="exercise-section-header other">
+                    Other Exercises
+                  </div>
+                )}
+                
+                <div
+                  className={`exercise-option ${index === highlightedIndex ? 'highlighted' : ''}`}
+                  onClick={() => handleExerciseSelect(exercise)}
+                  onMouseEnter={() => setHighlightedIndex(index)}
+                >
+                  <div className="exercise-option-main">
+                    <span className="exercise-icon">
+                      {getCategoryIcon(exercise.category)}
+                    </span>
+                    <span className="exercise-name">{exercise.name}</span>
+                    {getEquipmentBadge(exercise.equipment)}
+                  </div>
+                  <div className="exercise-option-details">
+                    {exercise.defaultSets && exercise.defaultReps && (
+                      <span className="exercise-defaults">
+                        {exercise.defaultSets} × {exercise.defaultReps}
+                        {exercise.defaultWeight && exercise.defaultWeight > 0 
+                          ? ` @ ${exercise.defaultWeight}kg` 
+                          : ''
+                        }
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </React.Fragment>
+            );
+          })}
         </div>
       )}
     </div>
