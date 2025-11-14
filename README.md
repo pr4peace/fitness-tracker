@@ -6,19 +6,24 @@ A professional fitness tracking application for trainees working with personal t
 
 ## Features
 
-### ✅ Current Features (Version 1.8)
+### ✅ Current Features (Version 1.9)
 - **Live Workout Tracking** - Real-time exercise logging with set completion indicators
 - **Smart Exercise Database** - Categorized exercise selection with intelligent defaults
 - **Workout Flow** - Simple 3-step process: Category → Options → Live Tracking
 - **Last Workout Repeat** - One-click repeat of previous workouts
-- **Professional UI** - Mobile-first glassmorphism design
+- **Professional Dashboard** - Clean activity history with edit/delete functionality
+- **Activity Management** - Professional edit and delete with smart confirmation dialogs
+- **Enhanced UX** - Two-line layout for better space utilization and readability
+- **Professional UI** - Mobile-first glassmorphism design with improved visual hierarchy
 - **Form Validation** - Comprehensive validation with error handling
 
 ### 🏃‍♂️ For Trainees
 - Log workouts in real-time during gym sessions
 - Track sets, reps, and weights with completion indicators
 - Repeat previous workouts with smart pre-filling
-- View workout history and progress
+- View workout history with professional dashboard
+- Edit and delete activities with confirmation dialogs
+- Enhanced date display and better visual organization
 
 ### 👨‍🏫 For Trainers (Planned)
 - Monitor trainee progress in real-time
@@ -73,8 +78,8 @@ src/
 
 ## Development Roadmap
 
-- **Version 1.9**: Activity management and search
-- **Version 2.0**: Daily photo/weight tracking
+- **Version 2.0**: Advanced search and filtering for activity history
+- **Version 2.1**: Daily photo/weight tracking
 - **Version 2.5**: Trainer dashboard
 - **Version 4.0**: Apple Watch integration
 - **Version 5.0**: Native iOS apps
