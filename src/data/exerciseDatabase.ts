@@ -192,6 +192,16 @@ export const EXERCISE_DATABASE: ExerciseOption[] = [
     defaultWeight: 0
   },
   {
+    id: 'back-squats',
+    name: 'Back Squats',
+    category: 'legs',
+    muscle: 'primary',
+    equipment: 'barbell',
+    defaultSets: 4,
+    defaultReps: 8,
+    defaultWeight: 40
+  },
+  {
     id: 'lunges',
     name: 'Lunges',
     category: 'legs',
@@ -213,7 +223,7 @@ export const EXERCISE_DATABASE: ExerciseOption[] = [
   },
   {
     id: 'leg-extension',
-    name: 'Leg Extension',
+    name: 'Leg Extensions',
     category: 'legs',
     muscle: 'primary',
     equipment: 'machine',
@@ -229,6 +239,26 @@ export const EXERCISE_DATABASE: ExerciseOption[] = [
     equipment: 'machine',
     defaultSets: 3,
     defaultReps: 12,
+    defaultWeight: 20
+  },
+  {
+    id: 'bulgarian-split-squats',
+    name: 'Bulgarian Split Squats',
+    category: 'legs',
+    muscle: 'primary',
+    equipment: 'dumbbells',
+    defaultSets: 3,
+    defaultReps: 10,
+    defaultWeight: 10
+  },
+  {
+    id: 'seated-calf-raises',
+    name: 'Seated Calf Raises',
+    category: 'legs',
+    muscle: 'primary',
+    equipment: 'machine',
+    defaultSets: 4,
+    defaultReps: 15,
     defaultWeight: 20
   },
 
